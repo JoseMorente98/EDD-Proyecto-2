@@ -5,6 +5,11 @@
  */
 package org.josemorente.controlador;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.josemorente.bean.Usuario;
 
 /**
@@ -111,5 +116,96 @@ public class UsuarioControlador {
                 }
             }
         }
+    }
+    
+    public void generarGraphviz() {
+        String cuerpoGraphiz;
+        
+        cuerpoGraphiz = "digraph TablaHash {\n" +
+        "\trankdir = LR; \n" + 
+        "\tnode[shape = record, fontcolor = black, style = filled, color = honeydew2];\n" +
+        "\tgraph[label = \"Tabla de Dispersión\", labelloc = t, fontsize = 20];\n" +
+        "\tnodesep=0; \n"+
+        "\tsplines=false; \n";
+
+        String cuerpoHash = "\tnodoHash [label=\"";
+        String listaSimpleHash = "\n";
+        
+        Usuario aux = null;
+        for (int i = 0; i < M; i++) {
+            if (tabla[i] != null) {
+                aux = tabla[i];
+                if(i==44) {
+                    cuerpoHash += "<f" + i + ">"+
+                        "\\lID: "+ (i+1) +
+                        "\\lCarnet: "+ tabla[i].getCarnet() +
+                        "\\lNombre: "+ tabla[i].getNombre() +
+                        "\\lApellido: "+ tabla[i].getApellido() +
+                        "\\lCarrera: "+ tabla[i].getCarrera() +    
+                        "\\lContraseña: "+ tabla[i].getPassword();
+                } else {
+                    cuerpoHash += "<f" + i + ">"+
+                        "\\lID: "+ (i+1) +
+                        "\\lCarnet: "+ tabla[i].getCarnet() +
+                        "\\lNombre: "+ tabla[i].getNombre() +
+                        "\\lApellido: "+ tabla[i].getApellido() +
+                        "\\lCarrera: "+ tabla[i].getCarrera() +    
+                        "\\lContraseña: "+ tabla[i].getPassword() + "|";
+                }
+                Usuario temp = aux.getSiguiente();
+                if(temp!=null) {
+                    int contador = 1;
+                    listaSimpleHash += "\tnodo_"+ i + "_" + contador+" [label=\""+
+                            
+                        "\\lCarnet: "+ temp.getCarnet() +
+                        "\\lNombre: "+ temp.getNombre() +
+                        "\\lApellido: "+ temp.getApellido() +
+                        "\\lCarrera: "+ temp.getCarrera() +    
+                        "\\lContraseña: "+ temp.getPassword() + "\"];\n";
+                    //listaSimpleHash = listaSimpleHash + "node_" + i +"_" + temp.getCarnet() + " [label=\"<f0> Indice: " + i + "\\lNombre: " +  temp.getNombre() +"\\lApellido: " + temp.getApellido() + "\\lCarnet: " +temp.getCarnet() + "\\lCarrera: " + temp.getCarrera() + "\\lPassword: " + temp.getPassword() + "\" ];\n";
+                    listaSimpleHash += "\tnodoHash:f"+ i + " -> nodo_" + i + "_" + contador +";\n";
+                    temp = temp.getSiguiente();
+                    while (temp != null) {
+                        contador++;
+                        
+                        listaSimpleHash += "\t\tnodo_"+ i + "_" + contador+" [label=\""+
+                            "\\lCarnet: "+ temp.getCarnet() +
+                            "\\lNombre: "+ temp.getNombre() +
+                            "\\lApellido: "+ temp.getApellido() +
+                            "\\lCarrera: "+ temp.getCarrera() +    
+                            "\\lContraseña: "+ temp.getPassword() + "\"];\n";
+                        if (temp != null) {
+                            listaSimpleHash += "\tnodo_" + i + "_" + (contador-1) + ":alpha -> nodo_" + i + "_" + contador + ";\n";
+                        }
+                        temp = temp.getSiguiente();
+                    }
+                }
+                
+            } else {
+                if(i==44) {
+                    cuerpoHash = cuerpoHash + "<f" + i + "> null";
+                } else {
+                    cuerpoHash = cuerpoHash + "<f" + i + "> null |";
+                }
+            }
+        }
+        
+        cuerpoHash = cuerpoHash + "\"];" + listaSimpleHash + "\n";
+        cuerpoGraphiz = cuerpoGraphiz + cuerpoHash + "}";
+        
+        try {
+            File file = new File("TablaDeDispersion.dot");
+            if(file.exists() && !file.isDirectory()) { 
+                file.delete();
+            }
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("TablaDeDispersion.dot");
+            fileWriter.write(cuerpoGraphiz);
+            fileWriter.close();
+            Runtime.getRuntime().exec("dot -Tjpg -o TablaDeDispersion.png TablaDeDispersion.dot");
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 }

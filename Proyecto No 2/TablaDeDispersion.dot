@@ -1,0 +1,31 @@
+digraph TablaHash {
+	rankdir = LR; 
+	node[shape = record, fontcolor = black, style = filled, color = honeydew2];
+	graph[label = "Tabla de Dispersión", labelloc = t, fontsize = 20];
+	nodesep=0; 
+	splines=false; 
+	nodoHash [label="<f0> null |<f1> null |<f2> null |<f3> null |<f4> null |<f5> null |<f6> null |<f7>\lID: 8\lCarnet: 201800032\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f8>\lID: 9\lCarnet: 201800033\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f9>\lID: 10\lCarnet: 201800034\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f10> null |<f11> null |<f12> null |<f13> null |<f14> null |<f15> null |<f16> null |<f17> null |<f18> null |<f19>\lID: 20\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f20>\lID: 21\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f21>\lID: 22\lCarnet: 201800001\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f22>\lID: 23\lCarnet: 201800002\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345|<f23> null |<f24> null |<f25> null |<f26> null |<f27> null |<f28> null |<f29> null |<f30> null |<f31> null |<f32> null |<f33> null |<f34> null |<f35> null |<f36> null |<f37> null |<f38> null |<f39> null |<f40> null |<f41> null |<f42> null |<f43> null |<f44> null"];
+	nodo_19_1 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodoHash:f19 -> nodo_19_1;
+		nodo_19_2 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_19_1:alpha -> nodo_19_2;
+		nodo_19_3 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_19_2:alpha -> nodo_19_3;
+		nodo_19_4 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_19_3:alpha -> nodo_19_4;
+		nodo_19_5 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_19_4:alpha -> nodo_19_5;
+		nodo_19_6 [label="\lCarnet: 201800044\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_19_5:alpha -> nodo_19_6;
+	nodo_20_1 [label="\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodoHash:f20 -> nodo_20_1;
+		nodo_20_2 [label="\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_20_1:alpha -> nodo_20_2;
+		nodo_20_3 [label="\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_20_2:alpha -> nodo_20_3;
+		nodo_20_4 [label="\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_20_3:alpha -> nodo_20_4;
+		nodo_20_5 [label="\lCarnet: 201800045\lNombre: Jose\lApellido: Morente\lCarrera: Sistemas\lContraseña: 12345"];
+	nodo_20_4:alpha -> nodo_20_5;
+
+}
