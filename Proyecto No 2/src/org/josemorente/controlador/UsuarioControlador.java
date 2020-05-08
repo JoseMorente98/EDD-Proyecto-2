@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.josemorente.bean.Usuario;
 
 /**
@@ -20,8 +22,10 @@ public class UsuarioControlador {
     static final int M = 45;
     private Usuario [] tabla;
     private int noElementos;
+    private ObservableList<Usuario> observableList;
     
     private UsuarioControlador() {
+        observableList = FXCollections.observableArrayList();
         tabla = new Usuario[M];
         for (int k = 0; k < M; k++)
             tabla[k] = null;
@@ -35,7 +39,22 @@ public class UsuarioControlador {
     private static class UsuarioControladorHolder {
         private static final UsuarioControlador INSTANCE = new UsuarioControlador();
     }
-    
+
+    public ObservableList<Usuario> getObservableList() {
+        Usuario aux = null;
+        for (int i = 0; i < M; i++) {
+            System.out.println(i);
+            if (tabla[i] != null) {
+                aux = tabla[i];
+                observableList.add(aux);
+                while (aux.getSiguiente() != null) {
+                    observableList.add(aux);
+                    aux = aux.getSiguiente();
+                }
+            }
+        }
+        return observableList;
+    }
     
     private int dispersion(int x)
     {
@@ -46,7 +65,7 @@ public class UsuarioControlador {
     public void insertar(int carnet, String nombre, String apellido, String carrera, String password)
     {
         int posicion = dispersion(carnet);
-        Usuario nuevo = new Usuario(carnet, nombre, apellido, carrera, password);
+        Usuario nuevo = new Usuario(carnet, nombre, apellido, carrera, MD5Controlador.getInstance().Encriptar(password));
         nuevo.setSiguiente(tabla[posicion]);
         tabla[posicion] = nuevo;
         noElementos++;
@@ -73,7 +92,7 @@ public class UsuarioControlador {
             if (actual.getCarnet() != codigo) {
                 System.out.println("No se encuentra en la tabla el socio " + codigo);
             }
-            else if (conforme(actual))  //se retira el nodo
+            else  //se retira el nodo
             {
                 if (anterior == null) {
                     tabla[posicion] = actual.getSiguiente();
@@ -100,6 +119,14 @@ public class UsuarioControlador {
                 aux = null;
         }
         return aux;
+    }
+    
+    public void actualizar(int carnet, String nombre, String apellido, String carrera, String password) {
+        Usuario usuario = buscar(carnet);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setCarrera(carrera);
+        usuario.setPassword(MD5Controlador.getInstance().Encriptar(password));
     }
     
     public void mostrar()

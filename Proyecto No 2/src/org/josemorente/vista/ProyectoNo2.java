@@ -6,11 +6,9 @@
 package org.josemorente.vista;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.josemorente.controlador.UsuarioControlador;
+import org.josemorente.vista.usuario.UsuarioFXML;
 
 /**
  *
@@ -20,12 +18,7 @@ public class ProyectoNo2 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
+        UsuarioFXML.getInstance().start(stage);
     }
 
     /**
@@ -33,26 +26,19 @@ public class ProyectoNo2 extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        UsuarioControlador.getInstance().insertar(201800001, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800002, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800032, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800033, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800034, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800045, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().insertar(201800044, "Jose", "Morente", "Sistemas", "12345");
-        UsuarioControlador.getInstance().mostrar();
-        UsuarioControlador.getInstance().generarGraphviz();
+        UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");
+        UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");
+        UsuarioControlador.getInstance().insertar(201801238, "Jose", "Morente", "Sistemas", "12345");
+        UsuarioControlador.getInstance().insertar(201801234, "Angel", "Lux", "Electronica", "12345");
+        UsuarioControlador.getInstance().insertar(201801248, "Rafael", "Morente", "Sistemas", "12345");
+        UsuarioControlador.getInstance().insertar(201801254, "Antonio", "Lux", "Electronica", "12345");
+        System.out.println("BUSCAR");
+        System.out.println(UsuarioControlador.getInstance().buscar(201801237));
+        System.out.println("ELIMINAR: 201801237");
+        UsuarioControlador.getInstance().eliminar(201801237);
+        System.out.println("BUSCAR");
+        System.out.println(UsuarioControlador.getInstance().buscar(201801237));
+        
     }
     
 }

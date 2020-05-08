@@ -5,11 +5,13 @@
  */
 package org.josemorente.bean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author josem
  */
-public class Usuario {
+public class Usuario implements Serializable {
     private int carnet;
     private String nombre;
     private String apellido;
