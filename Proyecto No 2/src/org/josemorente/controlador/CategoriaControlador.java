@@ -108,8 +108,7 @@ public class CategoriaControlador {
         return n2;
     }
     
-    public void insertar (int carnetUsuario, String nombre)throws Exception
-    {
+    public void insertar(int carnetUsuario, String nombre) {
         idCategoria++;
         Logical h = new Logical(false);
         raiz = insertarAvl(raiz, carnetUsuario, nombre, h);
@@ -121,8 +120,60 @@ public class CategoriaControlador {
         if (raiz == null) {
             raiz = new Categoria(idCategoria, carnetUsuario, nombre);
             h.setLogical(true);
+        } else if (nombre.compareTo(raiz.getNombre()) < 0) {
+            Categoria iz;
+            iz = insertarAvl((Categoria) raiz.getIzquierda(), carnetUsuario, nombre, h);
+            raiz.setIzquierda(iz);
+            // regreso por los nodos del camino de búsqueda
+            if (h.booleanValue()) {
+            // decrementa el fe por aumentar la altura de rama izquierda
+                switch (raiz.getFactorEquilibrio())
+                {
+                    case 1:
+                        raiz.setFactorEquilibrio(0);
+                        h.setLogical(false);
+                        break;
+                    case 0:
+                        raiz.setFactorEquilibrio(-1);
+                        break;
+                    case -1: // aplicar rotación a la izquierda
+                        n1 = (Categoria)raiz.getIzquierda();
+                        if (n1.getFactorEquilibrio() == -1)
+                            raiz = rotacionII(raiz, n1);
+                        else
+                            raiz = rotacionID(raiz, n1);
+                        h.setLogical(false);
+                }
+            }
+        } else if (nombre.compareTo(raiz.getNombre()) > 0) {
+            Categoria dr;
+            dr = insertarAvl((Categoria) raiz.getDerecha(), carnetUsuario, nombre, h);
+            raiz.setDerecha(dr);
+            // regreso por los nodos del camino de búsqueda
+            if (h.booleanValue()) {
+            // decrementa el fe por aumentar la altura de rama izquierda
+                switch (raiz.getFactorEquilibrio())
+                {
+                    case 1:
+                        n1 = (Categoria)raiz.getDerecha();
+                        if (n1.getFactorEquilibrio() == +1)
+                            raiz = rotacionDD(raiz, n1);
+                        else
+                            raiz = rotacionDI(raiz, n1);
+                        h.setLogical(false);
+                        break;
+                    case 0:
+                        raiz.setFactorEquilibrio(+1);
+                        break;
+                    case -1: // aplicar rotación a la izquierda
+                        raiz.setFactorEquilibrio(0);
+                        h.setLogical(false);
+                }
+            }
+        } else {
+            System.out.println("No se puede ingresar repetidos.");
         }
-        return null;
+        return raiz;
     }
     
     
