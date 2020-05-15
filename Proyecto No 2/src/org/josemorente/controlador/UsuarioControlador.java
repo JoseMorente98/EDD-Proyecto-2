@@ -232,7 +232,6 @@ public class UsuarioControlador {
             Runtime.getRuntime().exec("dot -Tjpg -o TablaDeDispersion.png TablaDeDispersion.dot");
         } catch (IOException ex) {
             Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
+        }    
     }
 }

@@ -1,0 +1,18 @@
+digraph ArbolAVL {
+	rankdir = TB; 
+	node[shape = ellipse, fontcolor = black, style = filled, color = lightsteelblue1];
+	graph[label = "Arbol AVL", labelloc = t, fontsize = 20];
+	Object1 [ label="\Infantil\n201801237"];
+	Object3 [ label="\Aventuras\n201801237"];
+	Object6 [ label="\Amor\n201801237"];
+Object3->Object6
+	Object7 [ label="\Diario\n201801237"];
+Object3->Object7
+Object1->Object3
+	Object4 [ label="\Misterio\n201801237"];
+	Object2 [ label="\Miedo\n201801237"];
+Object4->Object2
+	Object5 [ label="\Terror\n201801237"];
+Object4->Object5
+Object1->Object4
+}

@@ -115,6 +115,35 @@ public class Categoria implements Serializable{
         this.derecha = derecha;
     }
     
+    /**
+     * GRAFICO 
+     */
+    public String getArbol()
+    {
+	String bodyGraphiz;
+	if (izquierda == null && derecha == null) {
+            bodyGraphiz = "\tObject" + id + " [ label=\""+
+                            "\\"+ nombre +
+                            "\\n"+ carnetUsuario + "\"];\n";
+	}
+        else {
+            bodyGraphiz = "\tObject" + id + " [ label=\""+
+                            "\\"+ nombre +
+                            "\\n"+ carnetUsuario + "\"];\n";
+	}
+	if (izquierda != null) {
+            bodyGraphiz += izquierda.getArbol() +
+            "Object" + id + "->Object" + izquierda.getId() + "\n";
+	}
+	if (derecha != null) {
+            bodyGraphiz += derecha.getArbol() +
+                "Object" + id + "->Object" + derecha.getId() + "\n";
+	}
+	return bodyGraphiz;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "CATEGORIA {\n"+

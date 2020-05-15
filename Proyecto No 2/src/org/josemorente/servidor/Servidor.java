@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.josemorente.controlador.CategoriaControlador;
 
 /**
  *
@@ -31,7 +32,30 @@ public class Servidor extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws Exception {
+        //launch(args);
+        CategoriaControlador.getInstance().insertar(201801237, "Infantil");
+        CategoriaControlador.getInstance().insertar(201801237, "Miedo");
+        CategoriaControlador.getInstance().insertar(201801237, "Aventuras");
+        CategoriaControlador.getInstance().insertar(201801237, "Misterio");
+        CategoriaControlador.getInstance().insertar(201801237, "Terror");
+        CategoriaControlador.getInstance().insertar(201801237, "Amor");
+        CategoriaControlador.getInstance().insertar(201801237, "Diario");
+        CategoriaControlador.getInstance().generarGraphviz();
+        /*System.out.println("IN ORDER");
+        CategoriaControlador.getInstance().inOrder();
+        System.out.println("PRE ORDER");
+        CategoriaControlador.getInstance().preOrder();
+        System.out.println("POS ORDER");
+        CategoriaControlador.getInstance().posOrder();*/
+        
+        CategoriaControlador.getInstance().eliminar("Amor");
+        System.out.println("IN ORDER");
+        CategoriaControlador.getInstance().inOrder();
+        
+        //CategoriaControlador.getInstance().eliminar("Miedo");
+        //System.out.println("IN ORDER");
+        //CategoriaControlador.getInstance().inOrder();
+        
     }
 }

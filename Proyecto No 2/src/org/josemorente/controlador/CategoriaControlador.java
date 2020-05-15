@@ -5,7 +5,14 @@
  */
 package org.josemorente.controlador;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.josemorente.bean.Categoria;
+import org.josemorente.bean.Usuario;
+import static org.josemorente.controlador.UsuarioControlador.M;
 import org.josemorente.interfaces.Comparador;
 
 /**
@@ -176,7 +183,198 @@ public class CategoriaControlador {
         return raiz;
     }
     
+    public void eliminar (String categoria) throws Exception
+    {
+        Logical flag = new Logical(false);
+        raiz = borrarAvl(raiz, categoria, flag);
+    }
     
+    private Categoria borrarAvl(Categoria r, String clave, Logical cambiaAltura) throws Exception {
+        //System.out.println("BUSCANDO" + clave);
+        ///System.out.println("RAIZ"+ r.getNombre());
+        //System.out.println(clave+ "==" + r.getNombre() +(clave.compareTo(raiz.getNombre()) < 0));
+        //System.out.println(clave+ "==" + r.getNombre() + (clave.compareTo(raiz.getNombre()) > 0));
+        if (r == null)
+        {
+            System.out.println("NO ENCONTRADO D:");
+        }
+        else if (clave.compareTo(r.getNombre()) < 0)
+        {
+            Categoria iz;
+            iz = borrarAvl((Categoria)r.getIzquierda(), clave, cambiaAltura);
+            r.setIzquierda(iz);
+            if (cambiaAltura.booleanValue()) {
+                r = equilibrar1(r, cambiaAltura);
+            }
+        } else if (clave.compareTo(r.getNombre()) > 0) {
+            Categoria dr;
+            dr = borrarAvl((Categoria)r.getDerecha(), clave, cambiaAltura);
+            r.setDerecha(dr);
+            if (cambiaAltura.booleanValue()) {
+                r = equilibrar2(r, cambiaAltura);
+            }
+        } else {// Nodo encontrado
+            Categoria q;
+            q = r; // nodo a quitar del árbol
+            if (q.getIzquierda()== null) {
+                r = (Categoria) q.getDerecha();
+                cambiaAltura.setLogical(true);
+            } else if (q.getDerecha()== null) {
+                r = (Categoria) q.getIzquierda();
+                cambiaAltura.setLogical(true);
+            } else {
+                // tiene rama izquierda y derecha
+                Categoria iz;
+                iz = reemplazar(r, (Categoria)r.getIzquierda(), cambiaAltura);
+                r.setIzquierda(iz);
+                if (cambiaAltura.booleanValue()) {
+                    r = equilibrar1(r, cambiaAltura);
+                }
+            }
+            q = null;
+        }
+        return r;
+    }
+    
+    private Categoria reemplazar(Categoria n, Categoria act, Logical cambiaAltura)
+    {
+        if (act.getDerecha()!= null)
+        {
+            Categoria d;
+            d = reemplazar(n, (Categoria)act.getDerecha(), cambiaAltura);
+            act.setDerecha(d);
+            if (cambiaAltura.booleanValue()) {
+                act = equilibrar2(act, cambiaAltura);
+            }
+        } else {
+            n.setCarnetUsuario(act.getCarnetUsuario());
+            n.setNombre(act.getNombre());
+            n = act;
+            act = (Categoria)act.getIzquierda();
+            n = null;
+            cambiaAltura.setLogical(true);
+        }
+        return act;
+    } 
+    
+    private Categoria equilibrar1(Categoria n, Logical cambiaAltura)
+    {
+        Categoria n1;
+        switch (n.getFactorEquilibrio())
+        {
+            case -1:
+                n.setFactorEquilibrio(0);
+                break;
+            case 0: 
+                n.setFactorEquilibrio(1);
+                cambiaAltura.setLogical(false);
+                break;
+            case +1 : //se aplicar un tipo de rotación derecha
+                n1 = (Categoria)n.getDerecha();
+                if (n1.getFactorEquilibrio() >= 0) {
+                    if (n1.getFactorEquilibrio() == 0) { //la altura no vuelve a disminuir
+                        cambiaAltura.setLogical(false);
+                    }
+                    n = rotacionDD(n, n1);
+                }
+                else{
+                    n = rotacionDI(n, n1);
+                }
+                break;
+        }
+        return n;
+    }
+    
+    private Categoria equilibrar2(Categoria n, Logical cambiaAltura){
+        Categoria n1;
+        switch (n.getFactorEquilibrio()) {
+            case -1: // Se aplica un tipo de rotación izquierda
+                n1 = (Categoria)n.getIzquierda();
+                if (n1.getFactorEquilibrio() <= 0) {
+                    if (n1.getFactorEquilibrio() == 0) {
+                        cambiaAltura.setLogical(false);
+                    }
+                    n = rotacionII(n, n1);
+                } else {
+                    n = rotacionID(n,n1);
+                }
+                break;
+            case 0:
+                n.setFactorEquilibrio(-1);
+                cambiaAltura.setLogical(false);
+                break;
+            case +1:
+                n.setFactorEquilibrio(0);
+                break;
+        }
+        return n;
+    }
+    
+    public void inOrder() {
+        this.inOrder(raiz);
+    }
+    
+    public void posOrder() {
+        this.posOrder(raiz);
+    }
+    
+    public void preOrder() {
+        this.preOrder(raiz);
+    }
+    
+    public void inOrder(Categoria categoria) {
+        if (categoria != null) {
+            inOrder(categoria.getIzquierda());
+	    System.out.println("Categoria: " + categoria.getNombre());
+            inOrder(categoria.getDerecha());
+	}
+    }
+    
+    public void posOrder(Categoria categoria) {
+        if (categoria != null) {
+            posOrder(categoria.getIzquierda());
+            posOrder(categoria.getDerecha());
+	    System.out.println("Categoria: " + categoria.getNombre());            
+	}
+    }
+    
+    public void preOrder(Categoria categoria) {
+        if (categoria != null) {
+            System.out.println("Categoria: " + categoria.getNombre());
+            preOrder(categoria.getIzquierda());
+            preOrder(categoria.getDerecha());
+	}
+    }
+    
+    public void generarGraphviz() {
+        String cuerpoGraphiz;
+        
+        cuerpoGraphiz = "digraph ArbolAVL {\n" +
+        "\trankdir = TB; \n" + 
+        "\tnode[shape = ellipse, fontcolor = black, style = filled, color = lightsteelblue1];\n" +
+        "\tgraph[label = \"Arbol AVL\", labelloc = t, fontsize = 20];\n";
+        
+
+        cuerpoGraphiz = cuerpoGraphiz + this.raiz.getArbol()+"}";
+        
+        try {
+            File file = new File("ArbolAVL.dot");
+            if(file.exists() && !file.isDirectory()) { 
+                file.delete();
+            }
+            File file2 = new File("ArbolAVL.png");
+            if(file2.exists() && !file2.isDirectory()) { 
+                file2.delete();
+            }
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("ArbolAVL.dot");
+            fileWriter.write(cuerpoGraphiz);
+            fileWriter.close();
+            Runtime.getRuntime().exec("dot -Tjpg -o ArbolAVL.png ArbolAVL.dot");
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+    }
     
 }
 
