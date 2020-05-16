@@ -33,8 +33,8 @@ public class Servidor extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        //launch(args);
-        CategoriaControlador.getInstance().insertar(201801237, "Infantil");
+        launch(args);
+        /*CategoriaControlador.getInstance().insertar(201801237, "Infantil");
         CategoriaControlador.getInstance().insertar(201801237, "Miedo");
         CategoriaControlador.getInstance().insertar(201801237, "Aventuras");
         CategoriaControlador.getInstance().insertar(201801237, "Misterio");
@@ -49,9 +49,9 @@ public class Servidor extends Application {
         System.out.println("POS ORDER");
         CategoriaControlador.getInstance().posOrder();*/
         
-        CategoriaControlador.getInstance().eliminar("Amor");
+        /*CategoriaControlador.getInstance().eliminar("Amor");
         System.out.println("IN ORDER");
-        CategoriaControlador.getInstance().inOrder();
+        CategoriaControlador.getInstance().inOrder();*/
         
         //CategoriaControlador.getInstance().eliminar("Miedo");
         //System.out.println("IN ORDER");

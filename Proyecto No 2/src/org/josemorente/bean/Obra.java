@@ -161,4 +161,19 @@ public class Obra {
         this.carnetUsuario = carnetUsuario;
     }
     
+    @Override
+    public String toString() {
+        return "LIBRO {\n"+
+            "\tisbn: " + ISBN + "\n"+
+            "\tusuario: " + carnetUsuario + "\n"+
+            "\ttitulo: " + titulo + "\n"+
+            "\tautor: " + autor + "\n"+
+            "\teditorial: " + editorial + "\n"+
+            "\taño: " + ano + "\n"+
+            "\tedicion: " + edicion + "\n"+
+            "\tcategoria: " + categoria + "\n"+
+            "\tidioma: " + idioma + "\n"+
+            "}";
+    }  
+    
 }

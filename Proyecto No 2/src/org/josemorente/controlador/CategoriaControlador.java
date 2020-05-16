@@ -8,9 +8,13 @@ package org.josemorente.controlador;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.josemorente.bean.Categoria;
+import org.josemorente.bean.Obra;
 import org.josemorente.bean.Usuario;
 import static org.josemorente.controlador.UsuarioControlador.M;
 import org.josemorente.interfaces.Comparador;
@@ -22,8 +26,12 @@ import org.josemorente.interfaces.Comparador;
 public class CategoriaControlador {
     private Categoria raiz;
     private int idCategoria;
+    private ObservableList<Categoria> observableListCategoria;
+    private ObservableList<Obra> observableListObra;
     
     private CategoriaControlador() {
+        observableListCategoria = FXCollections.observableArrayList();
+        observableListObra = FXCollections.observableArrayList();
         raiz = null;
         idCategoria = 0;
     }
@@ -115,7 +123,7 @@ public class CategoriaControlador {
         return n2;
     }
     
-    public void insertar(int carnetUsuario, String nombre) {
+    public void agregar(int carnetUsuario, String nombre) {
         idCategoria++;
         Logical h = new Logical(false);
         raiz = insertarAvl(raiz, carnetUsuario, nombre, h);
@@ -325,7 +333,7 @@ public class CategoriaControlador {
     public void inOrder(Categoria categoria) {
         if (categoria != null) {
             inOrder(categoria.getIzquierda());
-	    System.out.println("Categoria: " + categoria.getNombre());
+	    System.out.println(categoria);
             inOrder(categoria.getDerecha());
 	}
     }
@@ -334,16 +342,137 @@ public class CategoriaControlador {
         if (categoria != null) {
             posOrder(categoria.getIzquierda());
             posOrder(categoria.getDerecha());
-	    System.out.println("Categoria: " + categoria.getNombre());            
+	    System.out.println(categoria);            
 	}
     }
     
     public void preOrder(Categoria categoria) {
         if (categoria != null) {
-            System.out.println("Categoria: " + categoria.getNombre());
+            System.out.println(categoria);
             preOrder(categoria.getIzquierda());
             preOrder(categoria.getDerecha());
 	}
+    }
+    
+    public Categoria buscar(String nombre, Categoria categoriaAux) {
+        System.out.println("BUSCAR: "+ nombre);
+        if (categoriaAux == null) {
+            System.out.println("NULL");
+            return null;
+        } else {
+            if (categoriaAux.getNombre().equals(nombre)) {
+                System.out.println("ENCONTRADO");
+                return categoriaAux;
+            } else {
+                if (categoriaAux.getIzquierda() != null) {
+                    return buscar(nombre, categoriaAux.getIzquierda());
+                }
+                if (categoriaAux.getDerecha() != null) {
+                    return buscar(nombre, categoriaAux.getDerecha());
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void agregarLibro(String categoria, Obra obra){
+        System.out.println("BUSCANDO AGREGAR: " + categoria);
+        agregarLibro(categoria, obra, this.raiz);
+    }
+    
+    public void agregarLibro(String categoria, Obra obra, Categoria nodoCategoria) {
+        if(nodoCategoria != null) {
+            System.out.println("BUSCANDO AGREGAR: " + categoria);
+            if(nodoCategoria.getNombre().equals(categoria)) {
+                System.out.println("ENCONTRADO: " + categoria);
+                nodoCategoria.getLibroControlador().agregar(obra.getISBN(), obra);
+            } else {
+                agregarLibro(categoria, obra, nodoCategoria.getIzquierda());
+                agregarLibro(categoria, obra, nodoCategoria.getDerecha());
+            }
+        }
+    }
+    
+    public boolean buscarLibro(int ISBN) {
+        return buscarLibro(ISBN, this.raiz);
+    }
+    
+    public boolean buscarLibro(int ISBN, Categoria categoria) {
+        if (categoria != null) {
+            if (categoria.getLibroControlador().getRaiz() != null) {
+                if (categoria.getLibroControlador().getRaiz().searchKey(M)) {
+                    return true;
+                }
+            } 
+            if (buscarLibro(ISBN, categoria.getIzquierda())) {
+                return true;
+            }
+            if (buscarLibro(ISBN, categoria.getDerecha())) {
+                return true;
+            }
+        }
+        return false; 
+    }
+    
+    public void eliminarLibro(int ISBN, String nombre) {
+        eliminarLibro(ISBN, nombre, this.raiz);
+    }
+    
+    public void eliminarLibro(int ISBN, String nombre, Categoria categoria) {
+        if(categoria != null) {
+            if(categoria.getNombre().equals(nombre)) {
+                if(categoria.getLibroControlador().getRaiz() != null) {
+                    categoria.getLibroControlador().eliminar(ISBN);
+                }
+            }
+        } else {
+            eliminarLibro(ISBN, nombre, categoria.getIzquierda());
+            eliminarLibro(ISBN, nombre, categoria.getDerecha());
+        }
+    }
+    
+    public void inOrderCategoria(Categoria categoria) {
+        if (categoria != null) {
+            inOrder(categoria.getIzquierda());
+            System.out.println(categoria);
+	    this.observableListCategoria.add(categoria);
+            inOrder(categoria.getDerecha());
+	}
+    }   
+    
+    public void preOrderLibro(Categoria categoria){
+        if (categoria != null) {
+            if (categoria.getLibroControlador().getRaiz() != null) {
+                //categoria.getLibroControlador().
+                //ArrayList ar = node.getBtree().getRoot().getArray();
+                categoria.getLibroControlador().getRaiz().obtenerTodo();
+                ArrayList<Obra> arrayList = categoria.getLibroControlador().getRaiz().getArrayList();
+                if (arrayList.size() > 0) {                    
+                    for (Obra obra: arrayList) {
+                        this.observableListObra.add(obra);
+                        System.out.println(obra);
+                        //if(!this.)
+                        /*if (!this.tempBook.contains(object)) {
+                            this.tempBook.add((Book)object);    
+                        }*/
+                    }
+                }
+            }
+            preOrderLibro(categoria.getIzquierda());
+            preOrderLibro(categoria.getDerecha());
+            //getBObjects(x, node.getLeft());
+            //getBObjects(x, node.getRight());
+
+        } 
+    }
+    
+    public void insertarLibro(int ISBN, String titulo, String autor, String editorial, String ano, String edicion, String categoria, String idioma, int carnetUsuario){
+        if (buscar(categoria, this.raiz) == null) {
+            this.agregar(carnetUsuario, categoria);
+        }
+        this.inOrder();
+        Obra obra = new Obra(ISBN, titulo, autor, editorial, ano, edicion, categoria, idioma, carnetUsuario);
+        this.agregarLibro(categoria, obra);
     }
     
     public void generarGraphviz() {
@@ -374,6 +503,39 @@ public class CategoriaControlador {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
         }    
+    }
+
+    /**
+     * @return the observableListCategoria
+     */
+    public ObservableList<Categoria> getObservableListCategoria() {
+        observableListCategoria.clear();
+        this.inOrderCategoria(this.raiz);
+        return observableListCategoria;
+    }
+
+    /**
+     * @param observableListCategoria the observableListCategoria to set
+     */
+    public void setObservableListCategoria(ObservableList<Categoria> observableListCategoria) {
+        this.observableListCategoria = observableListCategoria;
+    }
+
+    /**
+     * @return the observableListObra
+     */
+    public ObservableList<Obra> getObservableListObra() {
+        System.out.println("=============================== LIBROS=================================");
+        observableListObra.clear();
+        this.preOrderLibro(this.raiz);
+        return observableListObra;
+    }
+
+    /**
+     * @param observableListObra the observableListObra to set
+     */
+    public void setObservableListObra(ObservableList<Obra> observableListObra) {
+        this.observableListObra = observableListObra;
     }
     
 }

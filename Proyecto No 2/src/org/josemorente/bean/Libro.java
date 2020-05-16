@@ -13,12 +13,12 @@ import java.util.ArrayList;
  */
 public class Libro {
     private int tamano;
-    private int hojas;
-    private int[] llave;
-    private Obra[] libro;
-    private Libro[] punteros;
+    public int hojas;
+    public int[] llave;
+    public Obra[] libro;
+    public Libro[] punteros;
     private static int numeroNodo = 1;
-    private static ArrayList arrayList = new ArrayList();
+    private ArrayList<Obra> arrayList = new ArrayList();
     
     public Libro() {
     }
@@ -132,14 +132,14 @@ public class Libro {
     /**
      * @return the arrayList
      */
-    public static ArrayList getArrayList() {
+    public ArrayList getArrayList() {
         return arrayList;
     }
 
     /**
      * @param aArrayList the arrayList to set
      */
-    public static void setArrayList(ArrayList aArrayList) {
+    public void setArrayList(ArrayList aArrayList) {
         arrayList = aArrayList;
     }
     
@@ -174,7 +174,7 @@ public class Libro {
     }
     
     
-    public void traverse(int x) {  
+    public void obtenerUsuario(int x) {  
         int i = 0; 
         int j = 0;
         for (int k = 0; k < this.llave.length; k++) {            
@@ -184,7 +184,7 @@ public class Libro {
         }
         for (i = 0; i < j; i++) {   
             if (this.punteros[0] != null) { 
-                punteros[i].traverse(x); 
+                punteros[i].obtenerUsuario(x); 
             } 
             //System.out.print(keys[i] + " "); 
             if (((Obra)libro[i]).getCarnetUsuario() == x) {
@@ -193,7 +193,27 @@ public class Libro {
         } 
   
         if (this.punteros[0] != null) { 
-            punteros[i].traverse(x); 
+            punteros[i].obtenerUsuario(x); 
+        }
+    }
+    
+    public void obtenerTodo() {  
+        int i = 0; 
+        int j = 0;
+        for (int k = 0; k < this.llave.length; k++) {            
+            if (this.llave[k] != 0) {
+                j++;
+            }
+        }
+        for (i = 0; i < j; i++) {   
+            if (this.punteros[0] != null) { 
+                punteros[i].obtenerTodo(); 
+            }
+            getArrayList().add((Obra)libro[i]);
+        } 
+  
+        if (this.punteros[0] != null) { 
+            punteros[i].obtenerTodo(); 
         }
     }
     
@@ -209,14 +229,14 @@ public class Libro {
         for (i = 0; i < j; i++) { 
   
             if (this.punteros[0] != null) { 
-                punteros[i].traverse(x); 
+                punteros[i].obtenerUsuario(x); 
             } 
             if ((int)llave[i] == x) {
                 return true;
             }
         } 
         if (this.punteros[0] != null) { 
-            punteros[i].traverse(x); 
+            punteros[i].obtenerUsuario(x); 
         }
         return false;
     }

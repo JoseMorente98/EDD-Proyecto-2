@@ -6,6 +6,7 @@
 package org.josemorente.bean;
 
 import java.io.Serializable;
+import org.josemorente.controlador.LibroControlador;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Categoria implements Serializable{
     private int factorEquilibrio;
     private Categoria izquierda;
     private Categoria derecha;
+    private LibroControlador libroControlador;
 
     public Categoria() {
     }
@@ -29,6 +31,7 @@ public class Categoria implements Serializable{
         this.factorEquilibrio = 0;
         this.izquierda = null;
         this.derecha = null;
+        this.libroControlador = new LibroControlador();
     }
 
     /**
@@ -116,6 +119,20 @@ public class Categoria implements Serializable{
     }
     
     /**
+     * @return the libroControlador
+     */
+    public LibroControlador getLibroControlador() {
+        return libroControlador;
+    }
+
+    /**
+     * @param libroControlador the libroControlador to set
+     */
+    public void setLibroControlador(LibroControlador libroControlador) {
+        this.libroControlador = libroControlador;
+    }
+    
+    /**
      * GRAFICO 
      */
     public String getArbol()
@@ -142,8 +159,6 @@ public class Categoria implements Serializable{
 	return bodyGraphiz;
     }
     
-    
-    
     @Override
     public String toString() {
         return "CATEGORIA {\n"+
@@ -152,4 +167,5 @@ public class Categoria implements Serializable{
             "\tnombre: " + nombre + "\n"+
             "}";
     }    
+
 }

@@ -7,6 +7,7 @@ package org.josemorente.vista;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.UsuarioControlador;
 import org.josemorente.vista.usuario.UsuarioFXML;
 
@@ -25,7 +26,7 @@ public class ProyectoNo2 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        /*launch(args);
         UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");
         UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");
         UsuarioControlador.getInstance().insertar(201801238, "Jose", "Morente", "Sistemas", "12345");
@@ -37,8 +38,15 @@ public class ProyectoNo2 extends Application {
         System.out.println("ELIMINAR: 201801237");
         UsuarioControlador.getInstance().eliminar(201801237);
         System.out.println("BUSCAR");
-        System.out.println(UsuarioControlador.getInstance().buscar(201801237));
-        
+        System.out.println(UsuarioControlador.getInstance().buscar(201801237));*/
+        CategoriaControlador.getInstance().insertarLibro(0, "Titulo", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().inOrder();
+        /*CategoriaControlador.getInstance().insertarLibro(0, "Titulo 2", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(0, "Titulo 3 ", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(0, "Titulo 4", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(0, "Titulo 5", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(0, "Titulo 6", "123", "1231", "12313", "1231", "123132", "12311", 0);*/
+        CategoriaControlador.getInstance().getObservableListObra();
     }
     
 }
