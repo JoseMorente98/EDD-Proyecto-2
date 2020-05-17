@@ -7,6 +7,7 @@ package org.josemorente.vista;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.controlador.UsuarioControlador;
@@ -27,7 +28,7 @@ public class ProyectoNo2 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        OrdenadorControlador.getInstance().agregar("192.168.1.1", 8000);
+        /*OrdenadorControlador.getInstance().agregar("192.168.1.1", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.2", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.3", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.4", 8000);
@@ -36,7 +37,17 @@ public class ProyectoNo2 extends Application {
         OrdenadorControlador.getInstance().agregar("192.168.1.7", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.8", 8000);
         OrdenadorControlador.getInstance().eliminar("192.168.1.5");
-        OrdenadorControlador.getInstance().generarGraphviz();
+        OrdenadorControlador.getInstance().generarGraphviz();*/
+        
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().generarGraphviz();
         /*launch(args);
         UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");
         UsuarioControlador.getInstance().insertar(201801237, "Jose", "Morente", "Sistemas", "12345");

@@ -1,0 +1,27 @@
+digraph Blockchain {
+graph[label="Lista Doble Enlazada", labelloc=t, fontsize=20, compound=true];
+rankdir = LR;
+node [shape=folder, fontcolor = black, style = filled, color = bisque3];
+splines=false; Blockchain0 [label ="INDEX: 0\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 33984\nPREVIOUSHASH: 0000\nHASH: 0000151b39d3b2267fb12223be01cce3a0ec12ac6992da24dcd8f464e81c8da3 "]
+Blockchain1 [label ="INDEX: 1\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 29047\nPREVIOUSHASH: 0000151b39d3b2267fb12223be01cce3a0ec12ac6992da24dcd8f464e81c8da3\nHASH: 0000ba3e642ec657d4518c7073d07c95cf0f0dbda71ab63370a17cdcd5550a7f "]
+Blockchain2 [label ="INDEX: 2\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 19296\nPREVIOUSHASH: 0000ba3e642ec657d4518c7073d07c95cf0f0dbda71ab63370a17cdcd5550a7f\nHASH: 000082e74f8cfd8fec7d748de0879feb466d650e0eb6c7aa5171afa61a209149 "]
+Blockchain3 [label ="INDEX: 3\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 58161\nPREVIOUSHASH: 000082e74f8cfd8fec7d748de0879feb466d650e0eb6c7aa5171afa61a209149\nHASH: 000043fb499c0578ded77c89cea90ea8a593f889b3b9273e828418094befbd1c "]
+Blockchain4 [label ="INDEX: 4\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 25396\nPREVIOUSHASH: 000043fb499c0578ded77c89cea90ea8a593f889b3b9273e828418094befbd1c\nHASH: 0000a92f1aa858811e68913be24b24c39257dcc242ad5129abdf09d1269f86a5 "]
+Blockchain5 [label ="INDEX: 5\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 86203\nPREVIOUSHASH: 0000a92f1aa858811e68913be24b24c39257dcc242ad5129abdf09d1269f86a5\nHASH: 0000f518b6bab689e03f4919afc55ef58107817a013d2ebfa975e5b516be09f3 "]
+Blockchain6 [label ="INDEX: 6\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 13962\nPREVIOUSHASH: 0000f518b6bab689e03f4919afc55ef58107817a013d2ebfa975e5b516be09f3\nHASH: 000081d5e728142b2fa73ef4a4e2938cd229addbefb75958fcff9ce966c9e619 "]
+Blockchain7 [label ="INDEX: 7\nTIMESTAMP: 16-05-20::23:48:54\nDATA: []\nNONCE: 72765\nPREVIOUSHASH: 000081d5e728142b2fa73ef4a4e2938cd229addbefb75958fcff9ce966c9e619\nHASH: 00005028c39af2ddd6167e277030e5ccc50a2dc0d5ef751b414e121b7559a232 "]
+Blockchain0->Blockchain1
+Blockchain1->Blockchain0
+Blockchain1->Blockchain2
+Blockchain2->Blockchain1
+Blockchain2->Blockchain3
+Blockchain3->Blockchain2
+Blockchain3->Blockchain4
+Blockchain4->Blockchain3
+Blockchain4->Blockchain5
+Blockchain5->Blockchain4
+Blockchain5->Blockchain6
+Blockchain6->Blockchain5
+Blockchain6->Blockchain7
+Blockchain7->Blockchain6
+}
