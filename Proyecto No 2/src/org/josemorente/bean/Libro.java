@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author josem
  */
 public class Libro {
-    private int tamano;
+    public int tamano;
     public int hojas;
     public int[] llave;
     public Obra[] libro;
@@ -26,16 +26,16 @@ public class Libro {
     public Libro(int tamano) {
         this.tamano = tamano;
         this.hojas = 0;
-        this.llave = new int[1+(2*tamano)];
-        this.libro = new Obra[1+(2*tamano)];
-        this.punteros = new Libro[2+(2*tamano)];
+        this.llave = new int[2*tamano+1];
+        this.libro = new Obra[2*tamano+1];
+        this.punteros = new Libro[(2*tamano)+2];
     }
 
-    public Libro(int tamano, int llave, Obra libro) {
+    public Libro(int tamano, int llave, Obra obra) {
         this(tamano);
-        this.tamano = 1;
+        this.hojas = 1;
         this.llave[0] = llave;
-        this.libro[0] = libro;
+        this.libro[0] = obra;
     }
 
     /**
@@ -147,30 +147,36 @@ public class Libro {
      * @return the dot
      */
     public String getPunto(  )  {
-        String strNodo = "";
-        strNodo += getNombreNodo();
-        //b.append( getNombreNodo() );
-        strNodo += "[label=\"<P0>";
-        //b.append("[label=\"<P0>");
+        StringBuilder stringBuilder = new StringBuilder();
+        //String strNodo = "";
+        //strNodo += getNombreNodo();
+        stringBuilder.append( getNombreNodo() );
+        //strNodo += "[label=\"<P0>";
+        stringBuilder.append("[label=\"<P0>");
         for( int i = 0; i < getHojas(); i++ ) {
             Obra book = (Obra)libro[i];
-            //b.append( "| ISBN:" +  llave[i] + "\\lNombre:" + book.getTitulo() );
-            strNodo += "| ISBN:" +  llave[i] + "\\lNombre:" + book.getTitulo();
-            strNodo += "|<P" + (i+1) + ">";
-            //b.append( "|<P" + (i+1) + ">" );                
+            System.out.println(book);
+            if(book!=null) {
+                stringBuilder.append( "| ISBN:" +  llave[i] + "\\lNombre:" + book.getTitulo() );
+            //strNodo += "| ISBN:" +  llave[i] + "\\lNombre:" + book.getTitulo();
+            //strNodo += "|<P" + (i+1) + ">";
+            stringBuilder.append( "|<P" + (i+1) + ">" );       
+            }
+                     
         }
         
-        //b.append("\"];\n");
-        strNodo += "\"];\n";
+        stringBuilder.append("\"];\n");
+        //strNodo += "\"];\n";
         for( int i = 0; i <= getHojas() ; i++ ) {
             if( punteros[i] != null )   {
-                //b.append( punteros[i].getPunto() );
-                //b.append( getNombreNodo() + ":P" + i + " -> " + punteros[i].getNombreNodo()+ ";\n" );
-                strNodo += punteros[i].getPunto();
-                strNodo += getNombreNodo() + ":P" + i + " -> " + punteros[i].getNombreNodo()+ ";\n";
+                stringBuilder.append( punteros[i].getPunto() );
+                stringBuilder.append( getNombreNodo() + ":P" + i + " -> " + punteros[i].getNombreNodo()+ ";\n" );
+                //strNodo += punteros[i].getPunto();
+                //strNodo += getNombreNodo() + ":P" + i + " -> " + punteros[i].getNombreNodo()+ ";\n";
             }
         }
-        return strNodo;
+        //System.out.println(strNodo);
+        return stringBuilder.toString();
     }
     
     
@@ -198,24 +204,34 @@ public class Libro {
     }
     
     public void obtenerTodo() {  
+        System.out.println("OBTENER TODO");
         int i = 0; 
         int j = 0;
-        for (int k = 0; k < this.llave.length; k++) {            
+        for (int k = 0; k < this.llave.length; k++) {    
+            System.out.println(this.llave[k]);
             if (this.llave[k] != 0) {
+                System.out.println("J" + j);
                 j++;
             }
         }
+        System.out.println("JOTA " + j);
         for (i = 0; i < j; i++) {   
-            if (this.punteros[0] != null) { 
-                punteros[i].obtenerTodo(); 
+            System.out.println("THIS.PUNTEROS[0] dentro" + this.punteros[0]);
+            System.out.println("I dentro: " + i);
+            if (this.punteros[i] != null) { 
+                this.punteros[i].obtenerTodo(); 
             }
+            System.out.println("OBRA" + libro[i]);
             getArrayList().add((Obra)libro[i]);
         } 
   
+        System.out.println("THIS.PUNTEROS[0]" + this.punteros[0]);
+        System.out.println("I: " + i);
         if (this.punteros[0] != null) { 
-            punteros[i].obtenerTodo(); 
+            this.punteros[i].obtenerTodo(); 
         }
     }
+    
     
     public boolean searchKey(int x) {   
         int i = 0; 

@@ -6,6 +6,7 @@
 package org.josemorente.bean;
 
 import java.io.Serializable;
+import org.josemorente.controlador.EscritoControlador;
 import org.josemorente.controlador.LibroControlador;
 
 /**
@@ -19,7 +20,7 @@ public class Categoria implements Serializable{
     private int factorEquilibrio;
     private Categoria izquierda;
     private Categoria derecha;
-    private LibroControlador libroControlador;
+    private EscritoControlador escritoControlador;
 
     public Categoria() {
     }
@@ -31,7 +32,7 @@ public class Categoria implements Serializable{
         this.factorEquilibrio = 0;
         this.izquierda = null;
         this.derecha = null;
-        this.libroControlador = new LibroControlador();
+        this.escritoControlador = new EscritoControlador();
     }
 
     /**
@@ -117,19 +118,19 @@ public class Categoria implements Serializable{
     public void setDerecha(Categoria derecha) {
         this.derecha = derecha;
     }
-    
+        
     /**
-     * @return the libroControlador
+     * @return the escritoControlador
      */
-    public LibroControlador getLibroControlador() {
-        return libroControlador;
+    public EscritoControlador getEscritoControlador() {
+        return escritoControlador;
     }
 
     /**
-     * @param libroControlador the libroControlador to set
+     * @param escritoControlador the escritoControlador to set
      */
-    public void setLibroControlador(LibroControlador libroControlador) {
-        this.libroControlador = libroControlador;
+    public void setEscritoControlador(EscritoControlador escritoControlador) {
+        this.escritoControlador = escritoControlador;
     }
     
     /**

@@ -9,31 +9,31 @@ package org.josemorente.bean;
  *
  * @author josem
  */
-public class Separador {
-    private Libro puntero;
+public class Ruptura {
+    private Escrito puntero;
     private int llave;
-    private Obra obra;
+    private Object object;
 
-    public Separador() {
+    public Ruptura() {
     }
 
-    public Separador(Libro puntero, int llave, Obra obra) {
+    public Ruptura(Escrito puntero, int llave, Object object) {
         this.puntero = puntero;
         this.llave = llave;
-        this.obra = obra;
+        this.object = object;
     }
 
     /**
      * @return the puntero
      */
-    public Libro getPuntero() {
+    public Escrito getPuntero() {
         return puntero;
     }
 
     /**
      * @param puntero the puntero to set
      */
-    public void setPuntero(Libro puntero) {
+    public void setPuntero(Escrito puntero) {
         this.puntero = puntero;
     }
 
@@ -52,28 +52,17 @@ public class Separador {
     }
 
     /**
-     * @return the obra
+     * @return the object
      */
-    public Obra getObra() {
-        return obra;
+    public Object getObject() {
+        return object;
     }
 
     /**
-     * @param obra the obra to set
+     * @param object the object to set
      */
-    public void setObra(Obra obra) {
-        this.obra = obra;
+    public void setObject(Object object) {
+        this.object = object;
     }
-
-    @Override
-    public String toString() {
-        return "SEPARADOR {\n"+
-            "\tllave: " + llave + "\n"+
-            "\tobra: " + obra + "\n"+
-            "\tlibro: " + puntero + "\n"+
-            "}";
-    }
-    
-    
     
 }

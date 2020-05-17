@@ -39,14 +39,41 @@ public class ProyectoNo2 extends Application {
         UsuarioControlador.getInstance().eliminar(201801237);
         System.out.println("BUSCAR");
         System.out.println(UsuarioControlador.getInstance().buscar(201801237));*/
-        CategoriaControlador.getInstance().insertarLibro(0, "Titulo", "123", "1231", "12313", "1231", "123132", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(1, "Titulo", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(2, "Titulo 1", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(3, "Titulo 2", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(4, "Titulo 3 ", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(5, "Titulo 4", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(6, "Titulo 5", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(7, "Titulo 6", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(8, "Titulo 7", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(9, "Titulo 8", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(10, "Titulo 9", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(11, "Titulo 10", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(12, "Titulo 11", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(13, "Titulo 12", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(14, "Titulo 13", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(15, "Titulo 14", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(16, "Titulo 15", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(17, "Titulo 16", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(18, "Titulo 17", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(19, "Titulo 18", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(20, "Titulo 19", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(21, "Titulo 20", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(22, "Titulo 21", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        
+        
+        
         CategoriaControlador.getInstance().inOrder();
         /*CategoriaControlador.getInstance().insertarLibro(0, "Titulo 2", "123", "1231", "12313", "1231", "123132", "12311", 0);
         CategoriaControlador.getInstance().insertarLibro(0, "Titulo 3 ", "123", "1231", "12313", "1231", "123132", "12311", 0);
         CategoriaControlador.getInstance().insertarLibro(0, "Titulo 4", "123", "1231", "12313", "1231", "123132", "12311", 0);
         CategoriaControlador.getInstance().insertarLibro(0, "Titulo 5", "123", "1231", "12313", "1231", "123132", "12311", 0);
         CategoriaControlador.getInstance().insertarLibro(0, "Titulo 6", "123", "1231", "12313", "1231", "123132", "12311", 0);*/
+        CategoriaControlador.getInstance().generarGraphvizLibro("Miedo");
         CategoriaControlador.getInstance().getObservableListObra();
+        //CategoriaControlador.getInstance().generarGraphviz();
+        
     }
     
 }
