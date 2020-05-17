@@ -7,7 +7,6 @@ package org.josemorente.bean;
 
 import java.io.Serializable;
 import org.josemorente.controlador.EscritoControlador;
-import org.josemorente.controlador.LibroControlador;
 
 /**
  *

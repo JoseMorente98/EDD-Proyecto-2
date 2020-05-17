@@ -233,7 +233,8 @@ public class EscritoControlador {
     public void generarGraphviz(String nombre) {
         FileWriter fileWriter = null;
         String strGraphviz = "";
-        strGraphviz += "\tdigraph g { \n graph[label=\"" + nombre  + "\", labelloc=t, fontsize=20, compound=true]; escrito [shape=record];\n";
+        strGraphviz += "\tdigraph g { \n graph[label=\"" + nombre  + "\", labelloc=t, fontsize=20, compound=true];"
+            + " node [shape=record, fontcolor = black, style = filled, color = skyblue];\n";
         strGraphviz += getRaiz().toDot();
         strGraphviz += "}";
         try {

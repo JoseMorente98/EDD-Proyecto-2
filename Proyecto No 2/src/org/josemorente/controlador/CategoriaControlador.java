@@ -448,7 +448,6 @@ public class CategoriaControlador {
                 System.out.println("CATEGORIA ENTRA: "+ categoria);
                 //categoria.getLibroControlador().
                 //ArrayList ar = node.getBtree().getRoot().getArray();
-               // categoria.getLibroControlador().obtenerTodo();
                 categoria.getEscritoControlador().obtenerTodo();
                 ArrayList<Obra> arrayList = categoria.getEscritoControlador().getRaiz().getArrayList();
                 if (arrayList.size() > 0) {                    
