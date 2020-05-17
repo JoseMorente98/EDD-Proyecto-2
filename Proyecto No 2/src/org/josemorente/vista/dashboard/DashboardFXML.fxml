@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="org.josemorente.vista.dashboard.DashboardFXMLController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.josemorente.vista.dashboard.DashboardFXMLController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1024.0" pickOnBounds="true">
          <image>
@@ -18,66 +17,119 @@
       </ImageView>
       <Pane prefHeight="718.0" prefWidth="1024.0">
          <children>
-            <Pane layoutX="36.0" layoutY="204.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutX="357.0" layoutY="204.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutX="678.0" layoutY="204.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutX="36.0" layoutY="426.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutX="357.0" layoutY="426.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutX="678.0" layoutY="426.0" opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #8C0327;">
-               <children>
-                  <Label layoutX="97.0" layoutY="151.0" text="Categorias" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
+            <Button layoutX="39.0" layoutY="204.0" mnemonicParsing="false" onAction="#categoria" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="89.0" layoutY="147.0" text="Categorias" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Categoria.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic>
+            </Button>
+            <Button layoutX="357.0" layoutY="204.0" mnemonicParsing="false" onAction="#libro" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="112.0" layoutY="147.0" text="Libros" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Libro.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic>
+            </Button>
+            <Button layoutX="678.0" layoutY="204.0" mnemonicParsing="false" onAction="#usuario" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="99.0" layoutY="147.0" text="Usuarios" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Usuarios.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic></Button>
+            <Button layoutX="39.0" layoutY="426.0" mnemonicParsing="false" onAction="#blockchain" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="89.0" layoutY="146.0" text="Blockchain" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Blockchain.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic>
+            </Button>
+            <Button layoutX="357.0" layoutY="426.0" mnemonicParsing="false" onAction="#nodo" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="109.0" layoutY="146.0" text="Nodos" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Nodo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic>
+            </Button>
+            <Button layoutX="678.0" layoutY="426.0" mnemonicParsing="false" onAction="#reporte" opacity="0.9" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+               <graphic>
+                  <Pane opacity="0.75" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #590202;">
+                     <children>
+                        <Label layoutX="98.0" layoutY="146.0" text="Reportes" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="67.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Reportes.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </graphic>
+            </Button>
             <Label layoutX="39.0" layoutY="76.0" text="USAC Library" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Light" size="48.0" />
                </font>
             </Label>
-            <Button layoutX="908.0" layoutY="674.0" mnemonicParsing="false" text="Cerrar Sesión">
+            <Button layoutX="908.0" layoutY="674.0" mnemonicParsing="false" onAction="#logOut" text="Cerrar Sesión">
                <font>
                   <Font size="14.0" />
                </font>

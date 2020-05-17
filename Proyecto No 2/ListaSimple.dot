@@ -1,27 +1,18 @@
-digraph Blockchain {
-graph[label="Lista Doble Enlazada", labelloc=t, fontsize=20, compound=true];
+digraph grafica{
+graph[label="Lista de nodos en red", labelloc=t, fontsize=20, compound=true];
 rankdir = LR;
-node [shape=record];
-splines=false; Blockchain0 [label ="INDEX: 0\nTIMESTAMP: 0000b1e948d41a9bfaab172b57ee788d386f3dec48e192a9b3c123087c067829\nDATA: []\nNONCE: 217653\nPREVIOUSHASH: 0000\nHASH: 0000b1e948d41a9bfaab172b57ee788d386f3dec48e192a9b3c123087c067829 "]
-Blockchain1 [label ="INDEX: 1\nTIMESTAMP: 000096d13fe6b23186eb8fe44be4e9d7c09f2a81b4701f2b0bf1b01e0d0bceda\nDATA: []\nNONCE: 17583\nPREVIOUSHASH: 0000b1e948d41a9bfaab172b57ee788d386f3dec48e192a9b3c123087c067829\nHASH: 000096d13fe6b23186eb8fe44be4e9d7c09f2a81b4701f2b0bf1b01e0d0bceda "]
-Blockchain2 [label ="INDEX: 2\nTIMESTAMP: 0000791304851db5944fb798bfd8099d64c55957d71c305e96bb12d4bc82e5d8\nDATA: []\nNONCE: 19102\nPREVIOUSHASH: 000096d13fe6b23186eb8fe44be4e9d7c09f2a81b4701f2b0bf1b01e0d0bceda\nHASH: 0000791304851db5944fb798bfd8099d64c55957d71c305e96bb12d4bc82e5d8 "]
-Blockchain3 [label ="INDEX: 3\nTIMESTAMP: 000020e931b6fd6371db2e214e895cef38a7b7433cc87d66c19896c24b75a32e\nDATA: []\nNONCE: 20735\nPREVIOUSHASH: 0000791304851db5944fb798bfd8099d64c55957d71c305e96bb12d4bc82e5d8\nHASH: 000020e931b6fd6371db2e214e895cef38a7b7433cc87d66c19896c24b75a32e "]
-Blockchain4 [label ="INDEX: 4\nTIMESTAMP: 0000ec603554d9d3a8919d69be74dcf79fddafb77d623e504431395ed7596259\nDATA: []\nNONCE: 206930\nPREVIOUSHASH: 000020e931b6fd6371db2e214e895cef38a7b7433cc87d66c19896c24b75a32e\nHASH: 0000ec603554d9d3a8919d69be74dcf79fddafb77d623e504431395ed7596259 "]
-Blockchain5 [label ="INDEX: 5\nTIMESTAMP: 000073b02980e9001dd65055033e685fd7110132068bcca309398405ad42c8ee\nDATA: []\nNONCE: 14533\nPREVIOUSHASH: 0000ec603554d9d3a8919d69be74dcf79fddafb77d623e504431395ed7596259\nHASH: 000073b02980e9001dd65055033e685fd7110132068bcca309398405ad42c8ee "]
-Blockchain6 [label ="INDEX: 6\nTIMESTAMP: 0000b1f46bd8333b9e1fa880a5aad667e81bfc3bfb42e5406074ce336836a90e\nDATA: []\nNONCE: 68019\nPREVIOUSHASH: 000073b02980e9001dd65055033e685fd7110132068bcca309398405ad42c8ee\nHASH: 0000b1f46bd8333b9e1fa880a5aad667e81bfc3bfb42e5406074ce336836a90e "]
-Blockchain7 [label ="INDEX: 7\nTIMESTAMP: 0000228ee52882107766e5b658db1564f950372b60d94cd93c73b8e5818ff466\nDATA: []\nNONCE: 51932\nPREVIOUSHASH: 0000b1f46bd8333b9e1fa880a5aad667e81bfc3bfb42e5406074ce336836a90e\nHASH: 0000228ee52882107766e5b658db1564f950372b60d94cd93c73b8e5818ff466 "]
-Blockchain0->Blockchain1
-Blockchain1->Blockchain0
-Blockchain1->Blockchain2
-Blockchain2->Blockchain1
-Blockchain2->Blockchain3
-Blockchain3->Blockchain2
-Blockchain3->Blockchain4
-Blockchain4->Blockchain3
-Blockchain4->Blockchain5
-Blockchain5->Blockchain4
-Blockchain5->Blockchain6
-Blockchain6->Blockchain5
-Blockchain6->Blockchain7
-Blockchain7->Blockchain6
+node [shape=component, fontcolor = black, style = filled, color = skyblue1];
+splines=false; Nodo0 [label ="IP:  192.168.1.1\nPUERTO: 8000 "]
+Nodo1 [label ="IP:  192.168.1.2\nPUERTO: 8000 "]
+Nodo2 [label ="IP:  192.168.1.3\nPUERTO: 8000 "]
+Nodo3 [label ="IP:  192.168.1.4\nPUERTO: 8000 "]
+Nodo4 [label ="IP:  192.168.1.6\nPUERTO: 8000 "]
+Nodo5 [label ="IP:  192.168.1.7\nPUERTO: 8000 "]
+Nodo6 [label ="IP:  192.168.1.8\nPUERTO: 8000 "]
+Nodo0->Nodo1
+Nodo1->Nodo2
+Nodo2->Nodo3
+Nodo3->Nodo4
+Nodo4->Nodo5
+Nodo5->Nodo6
 }

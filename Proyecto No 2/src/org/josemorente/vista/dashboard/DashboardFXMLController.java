@@ -7,7 +7,11 @@ package org.josemorente.vista.dashboard;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import org.josemorente.vista.FXMLDocument;
+import org.josemorente.vista.categoria.CategoriaFXML;
 
 /**
  * FXML Controller class
@@ -23,5 +27,41 @@ public class DashboardFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    @FXML
+    private void categoria(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void libro(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void usuario(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void blockchain(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void nodo(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void reporte(ActionEvent event) throws Exception {
+        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    @FXML
+    private void logOut(ActionEvent event) throws Exception {
+        FXMLDocument.getInstance().start(FXMLDocument.stage);
+    }
+    
     
 }

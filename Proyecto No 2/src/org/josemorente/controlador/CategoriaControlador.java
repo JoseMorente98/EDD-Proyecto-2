@@ -244,6 +244,11 @@ public class CategoriaControlador {
         return r;
     }
     
+    public void actualizar(String nombre, int carnet, String nombreActualizado) throws Exception {
+        this.eliminar(nombre);
+        this.agregar(carnet, nombreActualizado);
+    }
+    
     private Categoria reemplazar(Categoria n, Categoria act, Logical cambiaAltura)
     {
         if (act.getDerecha()!= null)
@@ -431,13 +436,13 @@ public class CategoriaControlador {
             eliminarLibro(ISBN, nombre, categoria.getDerecha());
         }
     }
-    
+        
     public void inOrderCategoria(Categoria categoria) {
         if (categoria != null) {
-            inOrder(categoria.getIzquierda());
-            System.out.println(categoria);
+            inOrderCategoria(categoria.getIzquierda());
+            //System.out.println(categoria);
 	    this.observableListCategoria.add(categoria);
-            inOrder(categoria.getDerecha());
+            inOrderCategoria(categoria.getDerecha());
 	}
     }   
     

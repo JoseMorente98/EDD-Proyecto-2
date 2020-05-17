@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="org.josemorente.vista.categoria.CategoriaFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.josemorente.vista.categoria.CategoriaFXMLController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1024.0" pickOnBounds="true">
          <image>
@@ -24,18 +23,18 @@
          <children>
             <Pane prefHeight="720.0" prefWidth="724.0">
                <children>
-                  <TableView layoutX="12.0" layoutY="183.0" prefHeight="525.0" prefWidth="700.0">
+                  <TableView fx:id="tableView" layoutX="12.0" layoutY="183.0" prefHeight="525.0" prefWidth="700.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="columnNombre" minWidth="350.0" prefWidth="75.0" text="Nombre" />
+                      <TableColumn fx:id="columnUsuario" minWidth="350.0" prefWidth="75.0" text="Usuario" />
                     </columns>
                   </TableView>
-                  <TextField layoutX="14.0" layoutY="144.0" promptText="Buscar">
+                  <TextField fx:id="textFieldBuscar" layoutX="14.0" layoutY="144.0" promptText="Buscar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button layoutX="200.0" layoutY="144.0" mnemonicParsing="false" text="Agregar">
+                  <Button layoutX="200.0" layoutY="144.0" mnemonicParsing="false" onAction="#mostrarAgregar" text="Agregar">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -45,57 +44,47 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button layoutX="346.0" layoutY="144.0" mnemonicParsing="false" text="Editar">
+                  <Button layoutX="346.0" layoutY="144.0" mnemonicParsing="false" onAction="#mostrarEditar" text="Editar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button layoutX="410.0" layoutY="144.0" mnemonicParsing="false" text="Eliminar">
+                  <Button layoutX="410.0" layoutY="144.0" mnemonicParsing="false" onAction="#eliminar" text="Eliminar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label layoutX="14.0" layoutY="28.0" text="Categorías" textFill="WHITE">
+                  <Label layoutX="12.0" layoutY="40.0" text="Categorías" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Light" size="64.0" />
                      </font>
                   </Label>
+                  <Button layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#regresar" style="-fx-background-color: #000000;">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
             <Pane prefHeight="720.0" prefWidth="300.0">
                <children>
-                  <Pane layoutX="25.0" layoutY="235.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #590219;">
+                  <Pane fx:id="pane" layoutX="25.0" layoutY="235.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #590219;">
                      <children>
-                        <Button layoutX="60.0" layoutY="224.0" mnemonicParsing="false" text="Guardar Cambios">
+                        <Button layoutX="60.0" layoutY="224.0" mnemonicParsing="false" onAction="#guardarCambios" text="Guardar Cambios">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <TextField layoutX="37.0" layoutY="167.0" promptText="Nombre">
+                        <TextField fx:id="textFieldNombre" layoutX="37.0" layoutY="167.0" promptText="Nombre">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="60.0" layoutY="95.0" text="Agregar" textFill="WHITE">
-                           <font>
-                              <Font size="36.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="25.0" layoutY="235.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #590219;">
-                     <children>
-                        <Button layoutX="60.0" layoutY="224.0" mnemonicParsing="false" text="Guardar Cambios">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Button>
-                        <TextField layoutX="37.0" layoutY="167.0" promptText="Nombre">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <Label layoutX="47.0" layoutY="95.0" text="Actualizar" textFill="WHITE">
+                        <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="98.0" prefHeight="53.0" prefWidth="175.0" text="Agregar" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="36.0" />
                            </font>

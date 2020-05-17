@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="org.josemorente.vista.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.josemorente.vista.FXMLDocumentController">
     <children>
       <ImageView fitHeight="718.0" fitWidth="1024.0" pickOnBounds="true">
          <image>
@@ -21,12 +21,12 @@
       </ImageView>
       <HBox prefHeight="720.0" prefWidth="1022.0">
          <children>
-            <Pane cache="true" prefHeight="720.0" prefWidth="512.0">
+            <Pane cache="true" onDragDetected="#logIn" prefHeight="720.0" prefWidth="512.0">
                <effect>
                   <Blend />
                </effect>
                <children>
-                  <Button layoutX="58.0" layoutY="384.0" mnemonicParsing="false" text="Registrarme">
+                  <Button layoutX="58.0" layoutY="384.0" mnemonicParsing="false" onAction="#sigIn" text="Registrarme">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -51,13 +51,22 @@
                         <Font name="Segoe UI Light" size="18.0" />
                      </font>
                   </Label>
+                  <Button layoutX="60.0" layoutY="433.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="93.0" prefWidth="104.0" style="-fx-background-color: #590202;">
+                     <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../recursos/Configure.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
             <Pane prefHeight="720.0" prefWidth="512.0">
                <children>
                   <Pane layoutX="60.0" layoutY="100.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #590219;">
                      <children>
-                        <TextField layoutX="89.0" layoutY="211.0" promptText="No. Carnet">
+                        <TextField fx:id="textFieldCarnet" layoutX="89.0" layoutY="211.0" promptText="No. Carnet">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -67,12 +76,12 @@
                               <Font name="Segoe UI Light" size="48.0" />
                            </font>
                         </Label>
-                        <Button layoutX="135.0" layoutY="329.0" mnemonicParsing="false" text="Iniciar Sesión">
+                        <Button layoutX="135.0" layoutY="329.0" mnemonicParsing="false" onAction="#logIn" text="Iniciar Sesión">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <PasswordField layoutX="89.0" layoutY="267.0" promptText="Contraseña">
+                        <PasswordField fx:id="textFieldPassword" layoutX="89.0" layoutY="267.0" promptText="Contraseña">
                            <font>
                               <Font size="18.0" />
                            </font>

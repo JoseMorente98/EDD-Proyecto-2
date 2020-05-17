@@ -58,11 +58,20 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label layoutX="14.0" layoutY="28.0" text="Usuarios" textFill="WHITE">
+                  <Label layoutX="14.0" layoutY="27.0" text="Usuarios" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Light" size="64.0" />
                      </font>
                   </Label>
+                  <Button layoutX="19.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #000000;">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/Back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
             <Pane prefHeight="720.0" prefWidth="300.0">

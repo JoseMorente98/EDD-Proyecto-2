@@ -105,7 +105,6 @@ public class UsuarioControlador {
         }
     }
     
-    
     public Usuario buscar(int codigo)
     {
         Usuario aux = null;
@@ -121,6 +120,25 @@ public class UsuarioControlador {
         return aux;
     }
     
+    public Usuario autenticar(int codigo, String password) {
+        Usuario aux = null;
+        for (int i = 0; i < M; i++) {
+            if (tabla[i] != null) {
+                aux = tabla[i];
+                if(aux.getCarnet()==codigo && aux.getPassword().equals(password)) {
+                    return aux;
+                }
+                while (aux.getSiguiente() != null) {
+                    if(aux.getCarnet()==codigo && aux.getPassword().equals(password)) {
+                        return aux;
+                    }
+                    aux = aux.getSiguiente();
+                }
+            }
+        }
+        return null;
+    }
+        
     public void actualizar(int carnet, String nombre, String apellido, String carrera, String password) {
         Usuario usuario = buscar(carnet);
         usuario.setNombre(nombre);

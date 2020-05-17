@@ -5,7 +5,13 @@
  */
 package org.josemorente.vista;
 
+import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.CategoriaControlador;
@@ -21,13 +27,17 @@ public class ProyectoNo2 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        UsuarioFXML.getInstance().start(stage);
+        
+        FXMLDocument.getInstance().start(stage);
+        //UsuarioFXML.getInstance().start(stage);
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        UsuarioControlador.getInstance().insertar(201801237, "José", "Morente", "Ingenieria en Ciencias y Sistemas", "12345");
+        launch(args);
         /*OrdenadorControlador.getInstance().agregar("192.168.1.1", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.2", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.3", 8000);
@@ -37,9 +47,9 @@ public class ProyectoNo2 extends Application {
         OrdenadorControlador.getInstance().agregar("192.168.1.7", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.8", 8000);
         OrdenadorControlador.getInstance().eliminar("192.168.1.5");
-        OrdenadorControlador.getInstance().generarGraphviz();*/
+        OrdenadorControlador.getInstance().generarGraphviz();
         
-        CadenaBloqueControlador.getInstance().agregar();
+        /*CadenaBloqueControlador.getInstance().agregar();
         CadenaBloqueControlador.getInstance().agregar();
         CadenaBloqueControlador.getInstance().agregar();
         CadenaBloqueControlador.getInstance().agregar();

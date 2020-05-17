@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="org.josemorente.vista.registro.RegistroFXMLController">
+   <children>
+      <ImageView fitHeight="468.0" fitWidth="712.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../recursos/wallpaper2.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="26.0" layoutY="28.0" opacity="0.9" prefHeight="346.0" prefWidth="654.0" style="-fx-background-color: #590219;">
+         <children>
+            <Pane prefHeight="346.0" prefWidth="654.0">
+               <children>
+                  <Label layoutX="20.0" layoutY="22.0" text="Registro" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI Light" size="48.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textFieldCarnet" layoutX="61.0" layoutY="134.0" promptText="Carnet">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="textFieldNombre" layoutX="61.0" layoutY="194.0" promptText="Nombre">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="textFieldApellido" layoutX="61.0" layoutY="254.0" promptText="Apellido">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="textFieldCarrera" layoutX="368.0" layoutY="134.0" promptText="Carrera">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="textFieldPassword" layoutX="368.0" layoutY="194.0" promptText="Contraseña">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <Button fx:id="guardarCambios" layoutX="368.0" layoutY="254.0" mnemonicParsing="false" onAction="#guardarCambios" prefHeight="39.0" prefWidth="224.0" text="Guardar Cambios">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

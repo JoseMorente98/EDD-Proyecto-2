@@ -5,6 +5,8 @@
  */
 package org.josemorente.controlador;
 
+import javafx.scene.control.Alert;
+
 /**
  *
  * @author josem
@@ -36,5 +38,29 @@ public class NotificacionControlador {
         c.setActions(button);
         dialog.show();
     }*/
+    
+    public void advertencia(String titulo, String descripcion) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText(titulo);
+        alert.setContentText(descripcion);
+        alert.showAndWait();
+    }
+    
+    public void informacion(String titulo, String descripcion) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText(titulo);
+        alert.setContentText(descripcion);
+        alert.showAndWait();
+    }
+    
+    public void error(String titulo, String descripcion) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText(titulo);
+        alert.setContentText(descripcion);
+        alert.showAndWait();
+    }
 
 }

@@ -107,8 +107,8 @@ public class OrdenadorControlador {
     public void generarGraphviz()  {
         String strGraphviz = "";
         int contador = 0;
-        strGraphviz += "digraph grafica{\n" + "graph[label=\"Lista de nodos en red\", labelloc=t, fontsize=20, compound=true];";
-        strGraphviz += "\nrankdir = LR;\nnode [shape=record];\nsplines=false; ";
+        strGraphviz += "digraph grafica{\n" + "graph[label=\"Lista Simple\", labelloc=t, fontsize=20, compound=true];";
+        strGraphviz += "\nrankdir = LR;\nnode [shape=component, fontcolor = black, style = filled, color = skyblue1];\nsplines=false; ";
         
         Ordenador aux = inicio;
         while(aux != null) {
