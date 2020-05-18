@@ -1,22 +1,10 @@
-	digraph g { 
- graph[label="Miedo", labelloc=t, fontsize=20, compound=true]; node [shape=record, fontcolor = black, style = filled, color = skyblue];
-	Nodo997608398[label="<P0>| ISBN:9\nNombre:Titulo 8|<P1>"];
-	Nodo1973336893[label="<P0>| ISBN:3\nNombre:Titulo 2|<P1>| ISBN:6\nNombre:Titulo 5|<P2>"];
-	Nodo1212899836[label="<P0>| ISBN:1\nNombre:Titulo|<P1>| ISBN:2\nNombre:Titulo 1|<P2>"];
-Nodo1973336893:P0 -> Nodo1212899836;
-	Nodo1174290147[label="<P0>| ISBN:4\nNombre:Titulo 3 |<P1>| ISBN:5\nNombre:Titulo 4|<P2>"];
-Nodo1973336893:P1 -> Nodo1174290147;
-	Nodo1289696681[label="<P0>| ISBN:7\nNombre:Titulo 6|<P1>| ISBN:8\nNombre:Titulo 7|<P2>"];
-Nodo1973336893:P2 -> Nodo1289696681;
-Nodo997608398:P0 -> Nodo1973336893;
-	Nodo1285044316[label="<P0>| ISBN:12\nNombre:Titulo 11|<P1>| ISBN:15\nNombre:Titulo 14|<P2>| ISBN:18\nNombre:Titulo 17|<P3>"];
-	Nodo1607460018[label="<P0>| ISBN:10\nNombre:Titulo 9|<P1>| ISBN:11\nNombre:Titulo 10|<P2>"];
-Nodo1285044316:P0 -> Nodo1607460018;
-	Nodo1811075214[label="<P0>| ISBN:13\nNombre:Titulo 12|<P1>| ISBN:14\nNombre:Titulo 13|<P2>"];
-Nodo1285044316:P1 -> Nodo1811075214;
-	Nodo1588970020[label="<P0>| ISBN:16\nNombre:Titulo 15|<P1>| ISBN:17\nNombre:Titulo 16|<P2>"];
-Nodo1285044316:P2 -> Nodo1588970020;
-	Nodo1407343478[label="<P0>| ISBN:19\nNombre:Titulo 18|<P1>| ISBN:20\nNombre:Titulo 19|<P2>| ISBN:21\nNombre:Titulo 20|<P3>| ISBN:22\nNombre:Titulo 21|<P4>"];
-Nodo1285044316:P3 -> Nodo1407343478;
-Nodo997608398:P1 -> Nodo1285044316;
+digraph g { 
+	graph[label="Miedo", labelloc=t, fontsize=20, compound=true]; node [shape=record, fontcolor = black, style = filled, color = skyblue];
+	Nodo692658612[label="<P0>| ISBN:8\nNombre:Titulo 7|<P1>| ISBN:15\nNombre:Titulo 14|<P2>"];
+	Nodo1336339081[label="<P0>| ISBN:1\nNombre:Titulo|<P1>| ISBN:2\nNombre:Titulo 1|<P2>"];
+Nodo692658612:P0 -> Nodo1336339081;
+	Nodo1143874589[label="<P0>| ISBN:11\nNombre:Titulo 10|<P1>| ISBN:13\nNombre:Titulo 12|<P2>"];
+Nodo692658612:P1 -> Nodo1143874589;
+	Nodo382328005[label="<P0>| ISBN:16\nNombre:Titulo 15|<P1>| ISBN:17\nNombre:Titulo 16|<P2>| ISBN:19\nNombre:Titulo 18|<P3>| ISBN:21\nNombre:Titulo 20|<P4>"];
+Nodo692658612:P2 -> Nodo382328005;
 }

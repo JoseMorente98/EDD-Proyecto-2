@@ -5,19 +5,11 @@
  */
 package org.josemorente.vista;
 
-import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.controlador.UsuarioControlador;
-import org.josemorente.vista.usuario.UsuarioFXML;
 
 /**
  *

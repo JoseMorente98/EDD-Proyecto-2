@@ -1,18 +1,20 @@
 digraph grafica{
-graph[label="Lista de nodos en red", labelloc=t, fontsize=20, compound=true];
+graph[label="Lista Simple", labelloc=t, fontsize=20, compound=true];
 rankdir = LR;
 node [shape=component, fontcolor = black, style = filled, color = skyblue1];
 splines=false; Nodo0 [label ="IP:  192.168.1.1\nPUERTO: 8000 "]
 Nodo1 [label ="IP:  192.168.1.2\nPUERTO: 8000 "]
 Nodo2 [label ="IP:  192.168.1.3\nPUERTO: 8000 "]
 Nodo3 [label ="IP:  192.168.1.4\nPUERTO: 8000 "]
-Nodo4 [label ="IP:  192.168.1.6\nPUERTO: 8000 "]
-Nodo5 [label ="IP:  192.168.1.7\nPUERTO: 8000 "]
-Nodo6 [label ="IP:  192.168.1.8\nPUERTO: 8000 "]
+Nodo4 [label ="IP:  192.168.1.5\nPUERTO: 8000 "]
+Nodo5 [label ="IP:  192.168.1.6\nPUERTO: 8000 "]
+Nodo6 [label ="IP:  192.168.1.7\nPUERTO: 8000 "]
+Nodo7 [label ="IP:  192.168.1.8\nPUERTO: 8000 "]
 Nodo0->Nodo1
 Nodo1->Nodo2
 Nodo2->Nodo3
 Nodo3->Nodo4
 Nodo4->Nodo5
 Nodo5->Nodo6
+Nodo6->Nodo7
 }

@@ -530,6 +530,115 @@ public class CategoriaControlador {
             Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
+    
+    public String inOrder(Categoria categoria, String strGrapvhiz) {
+        if (categoria != null) {
+            strGrapvhiz += inOrder(categoria.getIzquierda(), strGrapvhiz);
+            strGrapvhiz += "\tObject" + categoria.getId() + " [ label=\""+
+                            "\\"+ categoria.getNombre() +
+                            "\\n"+ categoria.getCarnetUsuario() + "\"];\n";
+            strGrapvhiz += inOrder(categoria.getDerecha(), strGrapvhiz);
+	}
+        return strGrapvhiz;
+    }
+    
+    public String posOrder(Categoria categoria, String strGrapvhiz) {
+        if (categoria != null) {
+            strGrapvhiz += posOrder(categoria.getIzquierda(), strGrapvhiz);
+            strGrapvhiz += posOrder(categoria.getDerecha(), strGrapvhiz);
+            strGrapvhiz += "\tObject" + categoria.getId() + " [ label=\""+
+                            "\\"+ categoria.getNombre() +
+                            "\\n"+ categoria.getCarnetUsuario() + "\"];\n";
+            
+	}
+        return strGrapvhiz;
+    }
+    
+    public String preOrder(Categoria categoria, String strGrapvhiz) {
+        if (categoria != null) {
+            strGrapvhiz += "\tObject" + categoria.getId() + " [ label=\""+
+                            "\\"+ categoria.getNombre() +
+                            "\\n"+ categoria.getCarnetUsuario() + "\"];\n";
+            strGrapvhiz += inOrder(categoria.getIzquierda(), strGrapvhiz);
+            strGrapvhiz += inOrder(categoria.getDerecha(), strGrapvhiz);
+	}
+        return strGrapvhiz;
+    }
+    
+    public void generarGraphvizInOrder() {
+        String strGraphviz = "digraph ArbolBinario {\n";
+	strGraphviz += "\trankdir=TB;\n"; 
+	strGraphviz += "\tnode[shape = note, fontcolor = black, style = filled, color = lightskyblue];\n";
+	strGraphviz += "\tgraph[label = \"" + "In Order" + "\", labelloc = t, fontsize = 20];\n";
+        strGraphviz += this.inOrder(raiz, "") + "}";
+        try {
+            File file = new File("InOrder.dot");
+            if(file.exists() && !file.isDirectory()) { 
+                file.delete();
+            }
+            File file2 = new File("InOrder.png");
+            if(file2.exists() && !file2.isDirectory()) { 
+                file2.delete();
+            }
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("InOrder.dot");
+            fileWriter.write(strGraphviz);
+            fileWriter.close();
+            Runtime.getRuntime().exec("dot -Tjpg -o InOrder.png InOrder.dot");
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+    }
+    
+    public void generarGraphvizPosOrder() {
+        String strGraphviz = "digraph ArbolBinario {\n";
+	strGraphviz += "\trankdir=TB;\n"; 
+	strGraphviz += "\tnode[shape = note, fontcolor = black, style = filled, color = navajowhite];\n";
+	strGraphviz += "\tgraph[label = \"" + "Post Order" + "\", labelloc = t, fontsize = 20];\n";
+        strGraphviz += this.posOrder(raiz, "") + "}";
+        try {
+            File file = new File("PosOrder.dot");
+            if(file.exists() && !file.isDirectory()) { 
+                file.delete();
+            }
+            File file2 = new File("PosOrder.png");
+            if(file2.exists() && !file2.isDirectory()) { 
+                file2.delete();
+            }
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("PosOrder.dot");
+            fileWriter.write(strGraphviz);
+            fileWriter.close();
+            Runtime.getRuntime().exec("dot -Tjpg -o PosOrder.png PosOrder.dot");
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void generarGraphvizPreOrder() {
+        String strGraphviz = "digraph ArbolBinario {\n";
+	strGraphviz += "\trankdir=TB;\n"; 
+	strGraphviz += "\tnode[shape = note, fontcolor = black, style = filled, color = lavenderblush];\n";
+	strGraphviz += "\tgraph[label = \"" + "Pre Order" + "\", labelloc = t, fontsize = 20];\n";
+        strGraphviz += this.preOrder(raiz, "") + "}";
+        try {
+            File file = new File("PreOrder.dot");
+            if(file.exists() && !file.isDirectory()) { 
+                file.delete();
+            }
+            File file2 = new File("PreOrder.png");
+            if(file2.exists() && !file2.isDirectory()) { 
+                file2.delete();
+            }
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("PreOrder.dot");
+            fileWriter.write(strGraphviz);
+            fileWriter.close();
+            Runtime.getRuntime().exec("dot -Tjpg -o PreOrder.png PreOrder.dot");
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @return the observableListCategoria
