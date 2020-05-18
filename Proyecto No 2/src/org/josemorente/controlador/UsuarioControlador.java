@@ -6,17 +6,30 @@
 package org.josemorente.controlador;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.josemorente.bean.Cliente;
+import org.josemorente.bean.ServidorEDD;
 import org.josemorente.bean.Usuario;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author josem
+ * @author jSONObjectsem
  */
 public class UsuarioControlador {
     static final int M = 45;
@@ -38,6 +51,54 @@ public class UsuarioControlador {
     
     private static class UsuarioControladorHolder {
         private static final UsuarioControlador INSTANCE = new UsuarioControlador();
+    }
+    
+    /**
+     * AGREGAR SERVIDOR 
+     */
+    public void agregarUsuarioServidor(int carnet, String nombre, String apellido, String carrera, String password) {
+        try {
+            Usuario usuario = new Usuario(carnet, nombre, apellido, carrera, password);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(usuario, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ACTUALIZAR SERVIDOR 
+     */
+    public void actualizarUsuarioServidor(int carnet, String nombre, String apellido, String carrera, String password) {
+        try {
+            Usuario usuario = new Usuario(carnet, nombre, apellido, carrera, password);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(usuario, 2, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ELIMINAR SERVIDOR 
+     */
+    public void eliminarUsuarioServidor(int carnet) {
+        try {
+            Usuario usuario = new Usuario(carnet);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(usuario, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ObservableList<Usuario> getObservableList() {
@@ -160,6 +221,61 @@ public class UsuarioControlador {
                     System.out.println(aux.getSiguiente());
                     aux = aux.getSiguiente();
                 }
+            }
+        }
+    }
+    
+    /**
+     * CARGAR JSON 
+     */
+    public void cargarJSON() {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir Archivos");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Archivo JSON", "*.json"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                Object object = new org.json.simple.parser.JSONParser().parse(new FileReader(file));
+                JSONObject jSONObject = (JSONObject) object; 
+                
+                Iterator<Map.Entry> iteratorMap = null;
+                JSONArray jSONArray = (JSONArray) jSONObject.get("Usuarios");
+                Iterator iterator = jSONArray.iterator();
+                
+                while (iterator.hasNext())
+                {
+                    String nombre = "", apellido = "", carrera = "", password = "";
+                    int carnet = 0;
+                    iteratorMap = ((Map) iterator.next()).entrySet().iterator();
+                    
+                    while (iteratorMap.hasNext()) {
+                        Map.Entry pair = iteratorMap.next();
+                        if (pair.getKey().equals("Carnet")) {
+                            carnet = Integer.parseInt(pair.getValue().toString());
+                        }
+                        if (pair.getKey().equals("Nombre")) {
+                            nombre = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Apellido")) {
+                            apellido = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Carrera")) {
+                            carrera = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Password")) {
+                            password = (String)pair.getValue();
+                        }
+                    }
+                    this.insertar(carnet, nombre, apellido, carrera, password);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);            
+            } catch (IOException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

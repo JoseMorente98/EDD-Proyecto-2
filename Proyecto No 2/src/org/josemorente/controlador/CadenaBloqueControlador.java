@@ -8,7 +8,9 @@ package org.josemorente.controlador;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,8 +24,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.codec.binary.Hex;
 import org.josemorente.bean.CadenaBloque;
+import org.josemorente.bean.Categoria;
 import org.josemorente.bean.Cliente;
 import org.josemorente.bean.Ordenador;
+import org.josemorente.bean.ServidorEDD;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -54,8 +59,24 @@ public class CadenaBloqueControlador {
         return primero == null;
     }
     
-    public void agregar() {
-        CadenaBloque cadenaBloque = new CadenaBloque(this.getFechaActual(), new ArrayList(), Cliente.getIp());
+    /**
+     * AGREGAR SERVIDOR 
+     */
+    public void agregarCadenaBloqueServidor(JSONArray jSONArray) {
+        try {
+            CadenaBloque cadenaBloque = new CadenaBloque(this.getFechaActual(), jSONArray, Cliente.getIp());
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(cadenaBloque, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void agregar(JSONArray jSONArray) {
+        CadenaBloque cadenaBloque = new CadenaBloque(this.getFechaActual(), jSONArray, Cliente.getIp());
         String strHash = "";
         if (esVacio()) {
             primero = cadenaBloque;

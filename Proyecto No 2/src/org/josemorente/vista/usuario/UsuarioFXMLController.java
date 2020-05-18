@@ -113,18 +113,18 @@ public class UsuarioFXMLController implements Initializable {
     }
         
     @FXML
-    private void agregar(ActionEvent event) {
+    private void agregar(ActionEvent event) throws InterruptedException {
         try {
             if(validacion()) {
                 if(label.getText().equals("Agregar")) {
-                    UsuarioControlador.getInstance().insertar(
+                    UsuarioControlador.getInstance().agregarUsuarioServidor(
                     Integer.parseInt(carnet.getText()),
                     nombre.getText(),
                     apellido.getText(),
                     carrera.getText(),
                     password.getText());
                 } else if(label.getText().equals("Actualizar")) {
-                    UsuarioControlador.getInstance().actualizar(
+                    UsuarioControlador.getInstance().actualizarUsuarioServidor(
                     Integer.parseInt(carnet.getText()),
                     nombre.getText(),
                     apellido.getText(),
@@ -132,6 +132,7 @@ public class UsuarioFXMLController implements Initializable {
                     password.getText());
                 }
                 NotificacionControlador.getInstance().informacion("Usuario Guardado", "Los cambios se han guardado exitosamente.");
+                Thread.sleep(2000);
                 this.obtenerDatos();
                 this.limpiar();
             } else {
@@ -148,6 +149,14 @@ public class UsuarioFXMLController implements Initializable {
         label.setText("Agregar");
     }
     
+    @FXML
+    private void cargarJSON(ActionEvent event) throws IOException, InterruptedException {
+        UsuarioControlador.getInstance().cargarJSON();
+        NotificacionControlador.getInstance().informacion("Carga JSON", "Los cambios se han guardado exitosamente.");
+        Thread.sleep(3000);
+        this.obtenerDatos();
+    }
+    
     /**
      * OBTENER DATOS
      */
@@ -161,10 +170,11 @@ public class UsuarioFXMLController implements Initializable {
     }
     
     @FXML
-    private void eliminar(ActionEvent event) {
+    private void eliminar(ActionEvent event) throws InterruptedException {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Usuario usuario = tableView.getSelectionModel().getSelectedItem();
-            UsuarioControlador.getInstance().eliminar(usuario.getCarnet());
+            UsuarioControlador.getInstance().eliminarUsuarioServidor(usuario.getCarnet());
+            Thread.sleep(2000);
             this.obtenerDatos();
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");

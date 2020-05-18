@@ -24,6 +24,10 @@ public class Ordenador implements Serializable{
         this.puerto = puerto;
         this.siguiente = null;
     }
+    
+    public Ordenador(String ip) {
+        this.ip = ip;
+    }
 
     /**
      * @return the ip

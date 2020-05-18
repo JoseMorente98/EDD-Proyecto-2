@@ -23,6 +23,7 @@ import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.vista.FXMLDocument;
 import org.josemorente.vista.dashboard.DashboardFXML;
+import org.json.simple.JSONArray;
 
 /**
  * FXML Controller class
@@ -102,7 +103,7 @@ public class BlockchainFXMLController implements Initializable {
     
     @FXML
     private void agregar(ActionEvent event) throws Exception {
-        CadenaBloqueControlador.getInstance().agregar();
+        CadenaBloqueControlador.getInstance().agregar(new JSONArray());
         this.obtenerDatos();
     }
     

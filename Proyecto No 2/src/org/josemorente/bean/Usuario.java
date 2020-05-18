@@ -30,6 +30,10 @@ public class Usuario implements Serializable {
         this.password = password;
         this.siguiente = null;
     }
+    
+    public Usuario(int carnet) {
+        this.carnet = carnet;
+    }
 
     /**
      * @return the carnet

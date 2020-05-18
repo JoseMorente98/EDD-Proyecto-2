@@ -7,6 +7,7 @@ package org.josemorente.controlador;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ import org.josemorente.bean.Ruptura;
  *
  * @author josem
  */
-public class EscritoControlador {
+public class EscritoControlador implements Serializable {
     private Escrito raiz = null;
     private int tamano = 2;
     private int altura = 0;

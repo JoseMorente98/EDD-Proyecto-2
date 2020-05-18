@@ -19,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,11 +27,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import org.josemorente.bean.Categoria;
 import org.josemorente.bean.Obra;
-import org.josemorente.bean.Usuario;
 import org.josemorente.bean.UsuarioLogin;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.NotificacionControlador;
-import org.josemorente.controlador.UsuarioControlador;
 import org.josemorente.vista.FXMLDocument;
 import org.josemorente.vista.dashboard.DashboardFXML;
 
@@ -150,7 +147,7 @@ public class LibroFXMLController implements Initializable {
     }
         
     @FXML
-    private void agregar(ActionEvent event) {
+    private void agregar(ActionEvent event) throws InterruptedException {
         try {
             if(validacion()) {
                 if(label.getText().equals("Agregar")) {
@@ -165,8 +162,9 @@ public class LibroFXMLController implements Initializable {
                             comboBoxCategoria.getSelectionModel().getSelectedItem().getNombre(),
                             textFieldIdioma.getText(),
                             UsuarioLogin.getCarnet());
-                            CategoriaControlador.getInstance().agregarLibro(comboBoxCategoria.getSelectionModel().getSelectedItem().getNombre(), obra);
+                            CategoriaControlador.getInstance().agregarLibroServidor(comboBoxCategoria.getSelectionModel().getSelectedItem().getNombre(), obra);
                             NotificacionControlador.getInstance().informacion("Usuario Guardado", "Los cambios se han guardado exitosamente.");
+                            Thread.sleep(2000);
                             this.obtenerDatos();
                             this.limpiar();
                     } else {
@@ -182,6 +180,13 @@ public class LibroFXMLController implements Initializable {
         } catch (NumberFormatException e) {
             NotificacionControlador.getInstance().error("Validación de Campos", "El ISBN es un campo numérico.");
         }
+    }
+    
+    @FXML
+    private void cargarJSON(ActionEvent event) throws IOException {
+        CategoriaControlador.getInstance().cargarJSON();
+        NotificacionControlador.getInstance().informacion("Carga JSON", "Los cambios se han guardado exitosamente.");
+        this.obtenerDatos();
     }
     
     @FXML
@@ -208,11 +213,12 @@ public class LibroFXMLController implements Initializable {
     }
     
     @FXML
-    private void eliminar(ActionEvent event) {
+    private void eliminar(ActionEvent event) throws InterruptedException {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Obra obra = tableView.getSelectionModel().getSelectedItem();
-            CategoriaControlador.getInstance().eliminarLibro(obra.getISBN(), obra.getCategoria());
+            CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
             NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
+            Thread.sleep(2000);
             this.obtenerDatos();
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
@@ -253,7 +259,7 @@ public class LibroFXMLController implements Initializable {
     }
     
     @FXML 
-    private void eliminarISBN() {
+    private void eliminarISBN() throws InterruptedException {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Eliminar ISBN");
         dialog.setHeaderText("Eliminar Libro");
@@ -271,8 +277,9 @@ public class LibroFXMLController implements Initializable {
             }
             
             if(obra!=null) {
-                CategoriaControlador.getInstance().eliminarLibro(obra.getISBN(), obra.getCategoria());
+                CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
                 NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
+                Thread.sleep(2000);
                 this.obtenerDatos();
             } else {
                 NotificacionControlador.getInstance().error("Libro No Encontrado", "El ISBN introducido no corresponde a ningún libro.");

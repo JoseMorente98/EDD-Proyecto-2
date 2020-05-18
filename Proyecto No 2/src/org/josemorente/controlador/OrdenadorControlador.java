@@ -8,11 +8,16 @@ package org.josemorente.controlador;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.josemorente.bean.Cliente;
 import org.josemorente.bean.Ordenador;
+import org.josemorente.bean.ServidorEDD;
+import org.josemorente.bean.Usuario;
 
 /**
  *
@@ -34,6 +39,38 @@ public class OrdenadorControlador {
     private static class OrdenadorControladorHolder {
         private static final OrdenadorControlador INSTANCE = new OrdenadorControlador();
     }
+    
+    /**
+     * AGREGAR SERVIDOR 
+     */
+    public void agregarOrdenadorServidor(String ip, int puerto) {
+        try {
+            Ordenador ordenador = new Ordenador(ip, puerto);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(ordenador, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ELIMINAR SERVIDOR 
+     */
+    public void eliminarOrdenadorServidor(String ip) {
+        try {
+            Ordenador ordenador = new Ordenador(ip);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(ordenador, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
         
     /**
      * @param ip
@@ -42,10 +79,10 @@ public class OrdenadorControlador {
     public void agregar(String ip, int puerto){
         Ordenador ordenador = new Ordenador(ip, puerto);
         
-        if (inicio == null) {
-            inicio = ordenador;
+        if (getInicio() == null) {
+            setInicio(ordenador);
         } else{
-            Ordenador aux = inicio;
+            Ordenador aux = getInicio();
             while(aux.getSiguiente() != null){
                 aux = aux.getSiguiente();
             }
@@ -58,10 +95,10 @@ public class OrdenadorControlador {
      */
     public void eliminar(String ip){
         if (buscar(ip)) {
-            if (inicio.getIp().equals(ip)) {
-                inicio = inicio.getSiguiente();
+            if (getInicio().getIp().equals(ip)) {
+                setInicio(getInicio().getSiguiente());
             } else{
-                Ordenador aux = inicio;
+                Ordenador aux = getInicio();
                 while(!aux.getSiguiente().getIp().equals(ip)){
                     aux = aux.getSiguiente();
                 }
@@ -75,7 +112,7 @@ public class OrdenadorControlador {
      * @param ip
      */
     public boolean buscar(String ip){
-        Ordenador aux = inicio;
+        Ordenador aux = getInicio();
         boolean encontrado = false;
         while(aux != null && encontrado != true){
             if (ip.equals(aux.getIp())){
@@ -93,7 +130,7 @@ public class OrdenadorControlador {
      */
     public ObservableList<Ordenador> getObservableList() {
         observableList.clear();
-        Ordenador aux = inicio;
+        Ordenador aux = getInicio();
         while(aux != null) {
             observableList.add(aux);
             aux = aux.getSiguiente();
@@ -110,7 +147,7 @@ public class OrdenadorControlador {
         strGraphviz += "digraph grafica{\n" + "graph[label=\"Lista Simple\", labelloc=t, fontsize=20, compound=true];";
         strGraphviz += "\nrankdir = LR;\nnode [shape=component, fontcolor = black, style = filled, color = skyblue1];\nsplines=false; ";
         
-        Ordenador aux = inicio;
+        Ordenador aux = getInicio();
         while(aux != null) {
             strGraphviz += "Nodo" + contador + " [label =\"" + "IP:  " + aux.getIp() + "\\nPUERTO: "+aux.getPuerto()+" \"]\n";
             aux = aux.getSiguiente();
@@ -136,6 +173,20 @@ public class OrdenadorControlador {
         } catch (IOException ex) {
             Logger.getLogger(OrdenadorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * @return the inicio
+     */
+    public Ordenador getInicio() {
+        return inicio;
+    }
+
+    /**
+     * @param inicio the inicio to set
+     */
+    public void setInicio(Ordenador inicio) {
+        this.inicio = inicio;
     }
     
 }

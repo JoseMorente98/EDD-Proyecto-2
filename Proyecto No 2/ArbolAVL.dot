@@ -3,10 +3,8 @@ digraph ArbolAVL {
 	node[shape = ellipse, fontcolor = black, style = filled, color = lightsteelblue1];
 	graph[label = "Arbol AVL", labelloc = t, fontsize = 20];
 	Object5 [ label="\DEF\n0"];
-	Object2 [ label="\AMOR\n0"];
 	Object4 [ label="\ABC\n0"];
-Object2->Object4
-Object5->Object2
+Object5->Object4
 	Object1 [ label="\Miedo\n0"];
 	Object6 [ label="\GHJ\n0"];
 Object1->Object6

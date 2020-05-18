@@ -5,13 +5,14 @@
  */
 package org.josemorente.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author josem
  */
-public class Escrito {
+public class Escrito implements Serializable {
     public int tamano;
     public int hojas;
     public int[] llaves;

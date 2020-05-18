@@ -14,19 +14,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import org.josemorente.bean.Categoria;
-import org.josemorente.bean.Cliente;
-import org.josemorente.bean.Usuario;
 import org.josemorente.bean.UsuarioLogin;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.NotificacionControlador;
-import org.josemorente.controlador.UsuarioControlador;
 import org.josemorente.vista.FXMLDocument;
 import org.josemorente.vista.dashboard.DashboardFXML;
 
@@ -91,14 +87,17 @@ public class CategoriaFXMLController implements Initializable {
     private void guardarCambios(ActionEvent event) throws Exception {
         if(validacion()) {
             if(label.getText().equals("Agregar")) {
-                CategoriaControlador.getInstance().agregar(UsuarioLogin.getCarnet(), textFieldNombre.getText());                
+                CategoriaControlador.getInstance().agregarCategoriaServidor(UsuarioLogin.getCarnet(),
+                        textFieldNombre.getText());                
             } else if(label.getText().equals("Actualizar")) {
                 Categoria categoria = tableView.getSelectionModel().getSelectedItem();
-                CategoriaControlador.getInstance().actualizar(categoria.getNombre(), UsuarioLogin.getCarnet(), textFieldNombre.getText());
+                CategoriaControlador.getInstance().actualizarCategoriaServidor(categoria.getNombre(),
+                        UsuarioLogin.getCarnet(),
+                        textFieldNombre.getText());
                 //CategoriaControlador.getInstance().(0, textFieldNombre.getText());
-                
             }
             NotificacionControlador.getInstance().informacion("Categoría Guardada", "Los cambios se han guardado exitosamente.");
+            Thread.sleep(2000);
             this.obtenerDatos();
             this.limpiar();
         } else {
@@ -126,11 +125,15 @@ public class CategoriaFXMLController implements Initializable {
     
     @FXML
     private void mostrarEditar(ActionEvent event) {
-        if (tableView.getSelectionModel().getSelectedItem() != null) {
-            pane.setVisible(true);
-            label.setText("Actualizar");
+        if (tableView.getSelectionModel().getSelectedItem() != null) {            
             Categoria categoria = tableView.getSelectionModel().getSelectedItem();
-            this.textFieldNombre.setText(categoria.getNombre());
+            if(categoria.getCarnetUsuario()==UsuarioLogin.getCarnet()) {
+                pane.setVisible(true);
+                label.setText("Actualizar");
+                this.textFieldNombre.setText(categoria.getNombre());
+            } else {
+                NotificacionControlador.getInstance().advertencia("Advetencia", "No puedes editar la categoría si no eres el dueño.");
+            }
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }
@@ -145,9 +148,14 @@ public class CategoriaFXMLController implements Initializable {
     private void eliminar(ActionEvent event) throws Exception {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Categoria categoria = tableView.getSelectionModel().getSelectedItem();
-            CategoriaControlador.getInstance().eliminar(categoria.getNombre());
-            NotificacionControlador.getInstance().informacion("Categoría Eliminada", "La categoría se elimino correctamente.");
-            this.obtenerDatos();
+            if(categoria.getCarnetUsuario()==UsuarioLogin.getCarnet()) {
+                CategoriaControlador.getInstance().eliminarCategoriaServidor(categoria.getNombre());
+                NotificacionControlador.getInstance().informacion("Categoría Eliminada", "La categoría se elimino correctamente.");
+                Thread.sleep(2000);
+                this.obtenerDatos();
+            } else {
+                NotificacionControlador.getInstance().advertencia("Advetencia", "No puedes eliminar la categoría si no eres el dueño.");
+            }
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }

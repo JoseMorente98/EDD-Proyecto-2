@@ -5,16 +5,18 @@
  */
 package org.josemorente.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import org.json.simple.JSONArray;
 
 /**
  *
  * @author josem
  */
-public class CadenaBloque {
+public class CadenaBloque implements Serializable {
     private int index;
     private String timeStamp;
-    private ArrayList data;
+    private JSONArray data;
     private String nonce;
     private String previousHash;
     private String hash;
@@ -25,7 +27,7 @@ public class CadenaBloque {
     public CadenaBloque() {
     }
 
-    public CadenaBloque(int index, String timeStamp, ArrayList data, String nonce, String previousHash, String hash, String ip) {
+    public CadenaBloque(int index, String timeStamp, JSONArray data, String nonce, String previousHash, String hash, String ip) {
         this.index = index;
         this.timeStamp = timeStamp;
         this.data = data;
@@ -37,7 +39,7 @@ public class CadenaBloque {
         this.anterior = null;
     }
     
-    public CadenaBloque(String timeStamp, ArrayList data, String ip) {
+    public CadenaBloque(String timeStamp, JSONArray data, String ip) {
         this.timeStamp = timeStamp;
         this.data = data;
         this.ip = ip;
@@ -76,14 +78,14 @@ public class CadenaBloque {
     /**
      * @return the data
      */
-    public ArrayList getData() {
+    public JSONArray getData() {
         return data;
     }
 
     /**
      * @param data the data to set
      */
-    public void setData(ArrayList data) {
+    public void setData(JSONArray data) {
         this.data = data;
     }
 

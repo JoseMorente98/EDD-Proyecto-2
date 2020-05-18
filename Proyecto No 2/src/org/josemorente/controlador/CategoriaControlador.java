@@ -6,18 +6,30 @@
 package org.josemorente.controlador;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.josemorente.bean.Categoria;
+import org.josemorente.bean.Cliente;
 import org.josemorente.bean.Obra;
-import org.josemorente.bean.Usuario;
+import org.josemorente.bean.ServidorEDD;
+import org.josemorente.bean.UsuarioLogin;
 import static org.josemorente.controlador.UsuarioControlador.M;
-import org.josemorente.interfaces.Comparador;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -46,6 +58,96 @@ public class CategoriaControlador {
 
     public Categoria getRaiz() {
         return raiz;
+    }
+    
+    /**
+     * AGREGAR SERVIDOR 
+     */
+    public void agregarCategoriaServidor(int carnetUsuario, String nombre) {
+        try {
+            Categoria categoria = new Categoria(0, carnetUsuario, nombre);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(categoria, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ACTUALIZAR SERVIDOR 
+     */
+    public void actualizarCategoriaServidor(String nombre, int carnet, String nombreActualizado) {
+        try {
+            Categoria categoria = new Categoria(carnet, nombre, nombreActualizado);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(categoria, 2, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ELIMINAR SERVIDOR 
+     */
+    public void eliminarCategoriaServidor(String nombre) {
+        try {
+            Categoria categoria = new Categoria(0, nombre, "");
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(categoria, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * AGREGAR LIBRO SERVIDOR 
+     */
+    public void agregarLibroServidor(String categoria, Obra obra) {
+        try {
+            Obra obraObject = new Obra(
+                obra.getISBN(), 
+                obra.getTitulo(), 
+                obra.getAutor(), 
+                obra.getEditorial(), 
+                obra.getAno(), 
+                obra.getEdicion(), 
+                obra.getCategoria(), 
+                obra.getIdioma(), 
+                obra.getCarnetUsuario());
+            
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(obraObject, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * ELIMINAR LIBRO SERVIDOR 
+     */
+    public void eliminarLibroServidor(int ISBN, String nombre) {
+        try {
+            Obra obra = new Obra(ISBN, nombre);
+            Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+            ServidorEDD servidorEDD = new ServidorEDD(obra, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(servidorEDD);
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriaControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private Categoria rotacionII(Categoria n, Categoria n1) {
@@ -376,9 +478,101 @@ public class CategoriaControlador {
         return null;
     }
     
+    /**
+     * CARGAR JSON 
+     */
+    public void cargarJSON() {
+        ArrayList<Obra> arrayListObra = new ArrayList<>();
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir Archivos");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Archivo JSON", "*.json"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                Object object = new org.json.simple.parser.JSONParser().parse(new FileReader(file));
+                JSONObject jSONObject = (JSONObject) object; 
+                
+                Iterator<Map.Entry> iteratorMap = null;
+                JSONArray jSONArray = (JSONArray) jSONObject.get("libros");
+                Iterator iterator = jSONArray.iterator();
+                                
+                while (iterator.hasNext())
+                {
+                    String titulo = "", autor = "", editorial = "", edicion = "", ano = "", idioma = "", categoria = "";
+                    int ISBN = 0;
+                    iteratorMap = ((Map) iterator.next()).entrySet().iterator();
+                    
+                    while (iteratorMap.hasNext()) {
+                        Map.Entry pair = iteratorMap.next();
+                        if (pair.getKey().equals("ISBN")) {
+                            ISBN = Integer.parseInt(pair.getValue().toString());
+                        }
+                        if (pair.getKey().equals("Año")) {
+                            ano = pair.getValue().toString();
+                        }
+                        if (pair.getKey().equals("Idioma")) {
+                            idioma = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Titulo")) {
+                            titulo = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Autor")) {
+                            autor = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Edicion")) {
+                            edicion = pair.getValue().toString();
+                        }
+                        if (pair.getKey().equals("Editorial")) {
+                            editorial = (String)pair.getValue();
+                        }
+                        if (pair.getKey().equals("Categoria")) {
+                            categoria = (String)pair.getValue();
+                        }
+                    }
+                    Obra o = null;
+                    for (Obra obra : this.getObservableListObra()) {
+                        if(obra.getISBN() == ISBN) {
+                            o = obra;
+                            break;
+                        }
+                    }
+                    if(o == null) {
+                        Obra obra = new Obra(ISBN, titulo, autor, editorial, ano, edicion, categoria, idioma, UsuarioLogin.getCarnet());
+                        //System.out.println(obra);
+                        //this.agregarLibro(categoria, obra);
+                        arrayListObra.add(obra);
+                    } else {
+                        NotificacionControlador.getInstance().error("Error Libro", "El ISBN "+ISBN+" ya se encuentra almacenado.");
+                    }
+                }
+                     
+                Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+                ServidorEDD servidorEDD = new ServidorEDD(1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+                servidorEDD.setArrayListObra(arrayListObra);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectOutputStream.writeObject(servidorEDD);
+                socket.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);            
+            } catch (IOException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public void agregarLibro(String categoria, Obra obra){
         //System.out.println("BUSCANDO AGREGAR: " + categoria);
-        this.agregarLibro(categoria, obra, this.raiz);
+        Categoria object = this.buscar(categoria);
+        if(object != null) {
+            this.agregarLibro(categoria, obra, this.raiz);
+        } else {
+            this.agregar(UsuarioLogin.getCarnet(), categoria);
+            this.agregarLibro(categoria, obra, this.raiz);
+        }
     }
     
     public void agregarLibro(String categoria, Obra obra, Categoria nodoCategoria) {
@@ -476,7 +670,6 @@ public class CategoriaControlador {
         if (buscar(categoria, this.raiz) == null) {
             this.agregar(carnetUsuario, categoria);
         }
-        this.inOrder();
         Obra obra = new Obra(ISBN, titulo, autor, editorial, ano, edicion, categoria, idioma, carnetUsuario);
         this.agregarLibro(categoria, obra);
     }

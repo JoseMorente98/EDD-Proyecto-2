@@ -16,7 +16,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import org.josemorente.bean.Cliente;
+import org.josemorente.controlador.ClienteControlador;
 import org.josemorente.controlador.NotificacionControlador;
+import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.controlador.UsuarioControlador;
 
 /**
@@ -60,17 +62,20 @@ public class ConfiguracionFXMLController implements Initializable {
                 Cliente.setPuerto(textFieldPuerto.getText());
                 Cliente.setPuertoServidor(textFieldPuertoServidor.getText());
                 NotificacionControlador.getInstance().informacion("Configuración Guardada", "El cliente esta conectado.");
-                System.out.println(Cliente.getIp());
-                System.out.println(Cliente.getIpServidor());
-                System.out.println(Cliente.getPuerto());
-                System.out.println(Cliente.getPuertoServidor());
+                ClienteControlador.getInstance().iniciarServidor();
+                OrdenadorControlador.getInstance().agregarOrdenadorServidor(Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             } else {
                 NotificacionControlador.getInstance().error("Validación de Campos", "Los campos son requeridos.");
             }
         } catch (NumberFormatException e) {
             NotificacionControlador.getInstance().error("Validación de Campos", "Los puertos son campos numéricos.");
         }
-    }    
+    }  
+    
+    @FXML
+    private void apagarServidor(ActionEvent event) {
+        ClienteControlador.getInstance().detenerServidor();
+    }  
     
     public boolean validacion() {
         if(textFieldIP.getText().length() > 0 &&

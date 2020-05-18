@@ -47,7 +47,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button layoutX="277.0" layoutY="144.0" mnemonicParsing="false" text="Cargar">
+                  <Button layoutX="277.0" layoutY="144.0" mnemonicParsing="false" onAction="#cargarJSON" text="Cargar">
                      <font>
                         <Font size="14.0" />
                      </font>

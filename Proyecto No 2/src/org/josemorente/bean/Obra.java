@@ -5,11 +5,13 @@
  */
 package org.josemorente.bean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author josem
  */
-public class Obra {
+public class Obra implements Serializable {
     private int ISBN;
     private String titulo;
     private String autor;
@@ -33,6 +35,11 @@ public class Obra {
         this.categoria = categoria;
         this.idioma = idioma;
         this.carnetUsuario = carnetUsuario;
+    }
+    
+    public Obra(int ISBN, String categoria) {
+        this.ISBN = ISBN;
+        this.categoria = categoria;
     }
 
     /**

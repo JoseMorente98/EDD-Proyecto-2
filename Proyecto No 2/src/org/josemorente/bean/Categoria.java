@@ -16,6 +16,7 @@ public class Categoria implements Serializable{
     private int id;
     private int carnetUsuario;
     private String nombre;
+    private String nombreActualizado;
     private int factorEquilibrio;
     private Categoria izquierda;
     private Categoria derecha;
@@ -33,6 +34,14 @@ public class Categoria implements Serializable{
         this.derecha = null;
         this.escritoControlador = new EscritoControlador();
     }
+
+    public Categoria(int carnetUsuario, String nombre, String nombreActualizado) {
+        this.carnetUsuario = carnetUsuario;
+        this.nombre = nombre;
+        this.nombreActualizado = nombreActualizado;
+    }
+    
+    
 
     /**
      * @return the id
@@ -167,5 +176,19 @@ public class Categoria implements Serializable{
             "\tnombre: " + nombre + "\n"+
             "}";*/
     }    
+
+    /**
+     * @return the nombreActualizado
+     */
+    public String getNombreActualizado() {
+        return nombreActualizado;
+    }
+
+    /**
+     * @param nombreActualizado the nombreActualizado to set
+     */
+    public void setNombreActualizado(String nombreActualizado) {
+        this.nombreActualizado = nombreActualizado;
+    }
 
 }
