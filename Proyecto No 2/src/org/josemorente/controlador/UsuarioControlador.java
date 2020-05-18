@@ -41,6 +41,7 @@ public class UsuarioControlador {
     }
 
     public ObservableList<Usuario> getObservableList() {
+        observableList.clear();
         Usuario aux = null;
         for (int i = 0; i < M; i++) {
             System.out.println(i);

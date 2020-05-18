@@ -11,7 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.josemorente.vista.FXMLDocument;
+import org.josemorente.vista.blockchain.BlockchainFXML;
 import org.josemorente.vista.categoria.CategoriaFXML;
+import org.josemorente.vista.libro.LibroFXML;
+import org.josemorente.vista.nodos.NodoFXML;
+import org.josemorente.vista.reporte.ReporteFXML;
+import org.josemorente.vista.usuario.UsuarioFXML;
 
 /**
  * FXML Controller class
@@ -35,27 +40,27 @@ public class DashboardFXMLController implements Initializable {
     
     @FXML
     private void libro(ActionEvent event) throws Exception {
-        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+        LibroFXML.getInstance().start(FXMLDocument.stage);
     }
     
     @FXML
     private void usuario(ActionEvent event) throws Exception {
-        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+        UsuarioFXML.getInstance().start(FXMLDocument.stage);
     }
     
     @FXML
     private void blockchain(ActionEvent event) throws Exception {
-        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+        BlockchainFXML.getInstance().start(FXMLDocument.stage);
     }
     
     @FXML
     private void nodo(ActionEvent event) throws Exception {
-        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+        NodoFXML.getInstance().start(FXMLDocument.stage);
     }
     
     @FXML
     private void reporte(ActionEvent event) throws Exception {
-        CategoriaFXML.getInstance().start(FXMLDocument.stage);
+        ReporteFXML.getInstance().start(FXMLDocument.stage);
     }
     
     @FXML

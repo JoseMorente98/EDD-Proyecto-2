@@ -6,22 +6,14 @@
 package org.josemorente.vista.usuario;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -30,18 +22,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.josemorente.bean.ServidorEDD;
 import org.josemorente.bean.Usuario;
-import org.josemorente.controlador.MD5Controlador;
+import org.josemorente.controlador.NotificacionControlador;
 import org.josemorente.controlador.UsuarioControlador;
+import org.josemorente.vista.FXMLDocument;
+import org.josemorente.vista.dashboard.DashboardFXML;
 
 /**
  * FXML Controller class
  *
  * @author josem
  */
-public class UsuarioFXMLController implements Initializable, Runnable {
+public class UsuarioFXMLController implements Initializable {
     @FXML
     public TextField carrera;
     @FXML
@@ -52,6 +44,8 @@ public class UsuarioFXMLController implements Initializable, Runnable {
     public TextField carnet;
     @FXML
     public PasswordField password;
+    @FXML
+    public TextField textFieldBuscar;
     @FXML
     public Pane pane;
     @FXML
@@ -71,14 +65,13 @@ public class UsuarioFXMLController implements Initializable, Runnable {
     @FXML
     public Button button;
     /**
-     * PROPIEDADES GENERALES
+     * PROPIEDADES 
      */
-    private volatile boolean exit = false;
-    public ObservableList observableList;
-    public Thread thread;
+    private SortedList<Usuario> sortedList;
+    private FilteredList<Usuario> filteredList;
+    
 
     public UsuarioFXMLController() {
-        observableList = FXCollections.observableArrayList();
     }
     
     /**
@@ -87,178 +80,137 @@ public class UsuarioFXMLController implements Initializable, Runnable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        thread = new Thread(this);
-        thread.start();
         pane.setVisible(false);
+        this.obtenerDatos();
         columnCarnet.setCellValueFactory(new PropertyValueFactory<>("carnet"));
         columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         columnCarrera.setCellValueFactory(new PropertyValueFactory<>("carrera"));
         columnPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
-        this.obtenerDatos();
-    }
-
-    @Override
-    public void run() {
-        try {
-            //SOCKET CLIENTE
-            ServerSocket serverSocket = new ServerSocket(8200);
-            ServidorEDD paqueteRecibido = null;
-            while(!exit) {
-                Socket cliente = serverSocket.accept();
-                ObjectInputStream flujoEntrada = new ObjectInputStream(cliente.getInputStream());
-                
-                paqueteRecibido = (ServidorEDD) flujoEntrada.readObject();
-                /**
-                 * VALIDAR TDA
-                 */
-                if(paqueteRecibido.getUsuario() != null) {
-                    Usuario usuario = paqueteRecibido.getUsuario();
-
-                    if(paqueteRecibido.getEstado() == 0) {
-                        UsuarioControlador.getInstance().eliminar(usuario.getCarnet());
-                        this.obtenerDatos();
-                    } else if(paqueteRecibido.getEstado() == 1) {
-                        UsuarioControlador.getInstance().insertar(usuario.getCarnet(), usuario.getNombre(), usuario.getApellido(), usuario.getCarrera(), usuario.getPassword());
-                        this.obtenerDatos();
-                    } else if(paqueteRecibido.getEstado() == 2) {
-                        UsuarioControlador.getInstance().actualizar(usuario.getCarnet(), usuario.getNombre(), usuario.getApellido(), usuario.getCarrera(), usuario.getPassword());
-                        this.obtenerDatos();
-                    }
-                    
-                    
-                    //textArea.setText(fecha +  " - USUARIO AGREGADO "+usuario.getCarnet()+" - IP: " + servidorEDD.getIpEntrada());
+        
+        //BUSCAR EN TABLA
+        textFieldBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(data -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
                 }
-                //campoChat.append("\n" + paqueteRecibido.getNick() + ": " + paqueteRecibido.getMensaje() + " para: "+ paqueteRecibido.getIp());
-                cliente.close();
-                System.out.println("ando escuchando");
-            }
-            
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            System.err.println(ex.getMessage());
-        }
+                
+                String lowerCaseFilter = newValue.toLowerCase();
+                
+                if (data.getNombre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getApellido().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getCarrera().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedList);
     }
-    
-    public void stop(){
-        exit = true;
-    }
-    
-    @FXML
-    public void exitApplication(ActionEvent event) {
-        stop();
-    }
-    
+        
     @FXML
     private void agregar(ActionEvent event) {
-        Usuario usuario = new Usuario(
-            Integer.parseInt(carnet.getText()),
-            nombre.getText(), 
-            apellido.getText(), 
-            carrera.getText(), 
-            password.getText());
-        if(label.getText().equals("Agregar")) {
-            try {
-                Socket socket = new Socket("192.168.1.106", 8000);
-                ServidorEDD servidorEDD = new ServidorEDD();
-                servidorEDD.setEstado(1);
-                servidorEDD.setIpEntrada("192.168.1.106");
-                servidorEDD.setIpSalida("192.168.1.106");
-                servidorEDD.setUsuario(usuario);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(servidorEDD);
-                socket.close();
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
+        try {
+            if(validacion()) {
+                if(label.getText().equals("Agregar")) {
+                    UsuarioControlador.getInstance().insertar(
+                    Integer.parseInt(carnet.getText()),
+                    nombre.getText(),
+                    apellido.getText(),
+                    carrera.getText(),
+                    password.getText());
+                } else if(label.getText().equals("Actualizar")) {
+                    UsuarioControlador.getInstance().actualizar(
+                    Integer.parseInt(carnet.getText()),
+                    nombre.getText(),
+                    apellido.getText(),
+                    carrera.getText(),
+                    password.getText());
+                }
+                NotificacionControlador.getInstance().informacion("Usuario Guardado", "Los cambios se han guardado exitosamente.");
+                this.obtenerDatos();
+                this.limpiar();
+            } else {
+                NotificacionControlador.getInstance().error("Validación de Campos", "Los campos son requeridos.");
             }
-        } else if(label.getText().equals("Actualizar")){
-            try {
-                Socket socket = new Socket("192.168.1.106", 8000);
-                ServidorEDD servidorEDD = new ServidorEDD();
-                servidorEDD.setEstado(2);
-                servidorEDD.setIpEntrada("192.168.1.106");
-                servidorEDD.setIpSalida("192.168.1.106");
-                servidorEDD.setUsuario(usuario);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(servidorEDD);
-                socket.close();
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
+        } catch (NumberFormatException e) {
+            NotificacionControlador.getInstance().error("Validación de Campos", "El carnet es un campo numérico.");
         }
-        pane.setVisible(false);
     }
     
     @FXML
     private void mostrarAgregar(ActionEvent event) throws IOException {
-        /*System.out.println("MOSTRAR PANE");
         pane.setVisible(true);
         label.setText("Agregar");
-        this.carnet.setDisable(false);*/
-        thread.currentThread().interrupt();
-        exit = true;
-        Parent root;
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("org/josemorente/vista/categoria/CategoriaFXML.fxml"));
-        Stage stage2 = new Stage();
-        stage2.setTitle("Login");
-        stage2.setScene(new Scene(root));
-        stage2.show();
-        // Hide this current window (if this is what you want)
-        //((Stage)(event.getSource())).getScene().getWindow().hide();
-        //Stage stage = (Stage) button.getScene().getWindow();
-        // do what you have to do
-        //stage.hide();
-        UsuarioFXML.getInstance().close();
-        
     }
     
     /**
      * OBTENER DATOS
      */
     private void obtenerDatos() {
-        observableList.clear();
-        observableList = UsuarioControlador.getInstance().getObservableList();
+        ObservableList<Usuario> observableList = UsuarioControlador.getInstance().getObservableList();
+        filteredList = new FilteredList<>(observableList, p -> true);
         tableView.setItems(observableList);
+        sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedList);
     }
     
     @FXML
     private void eliminar(ActionEvent event) {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
-            try { 
-                Usuario usuario = tableView.getSelectionModel().getSelectedItem();
-                Socket socket = new Socket("192.168.1.106", 8000);
-                ServidorEDD servidorEDD = new ServidorEDD();
-                servidorEDD.setEstado(0);
-                servidorEDD.setIpEntrada("192.168.1.106");
-                servidorEDD.setIpSalida("192.168.1.106");
-                servidorEDD.setUsuario(usuario);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(servidorEDD);
-                socket.close();
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
+            Usuario usuario = tableView.getSelectionModel().getSelectedItem();
+            UsuarioControlador.getInstance().eliminar(usuario.getCarnet());
+            this.obtenerDatos();
         } else {
-            System.out.println("No ha seleccionado un elemento.");
+            NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }
     }
     
     @FXML
     private void actualizarMostrar(ActionEvent event) {
-        pane.setVisible(true);
-        label.setText("Actualizar");
         if (tableView.getSelectionModel().getSelectedItem() != null) {
+            pane.setVisible(true);
+            label.setText("Actualizar");
             Usuario usuario = tableView.getSelectionModel().getSelectedItem();
             this.carnet.setText(String.valueOf(usuario.getCarnet()));
             this.carnet.setDisable(true);
             this.nombre.setText(usuario.getNombre());
             this.apellido.setText(usuario.getApellido());
             this.carrera.setText(usuario.getCarrera());
-            this.password.setText(usuario.getPassword());
+            this.password.setText("");
         } else {
-            System.out.println("No ha seleccionado un elemento.");
+            NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }
+    }
+    
+    @FXML
+    private void regresar(ActionEvent event) throws Exception {
+        DashboardFXML.getInstance().start(FXMLDocument.stage);
+    }
+    
+    public boolean validacion() {
+        if(nombre.getText().length() > 0 &&
+            apellido.getText().length() > 0 &&
+            carnet.getText().length() > 0 &&
+            carrera.getText().length() > 0 &&
+            password.getText().length() > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void limpiar() {
+        this.nombre.setText("");
+        this.apellido.setText("");
+        this.carrera.setText("");
+        this.carnet.setText("");
+        this.password.setText("");
+        pane.setVisible(false);
     }
     
 }

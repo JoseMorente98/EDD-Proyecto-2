@@ -50,6 +50,9 @@ public class CategoriaFXMLController implements Initializable {
     public TableColumn<Categoria, String> columnNombre;
     @FXML
     public TableColumn<Categoria, String> columnUsuario;
+    /**
+     * PROPIEDADES 
+     */
     private SortedList<Categoria> sortedList;
     private FilteredList<Categoria> filteredList;
     
@@ -155,10 +158,6 @@ public class CategoriaFXMLController implements Initializable {
      */
     public void obtenerDatos() {
         ObservableList<Categoria> observableList = CategoriaControlador.getInstance().getObservableListCategoria();
-        System.out.println("======================CATEGORIAS=============================");
-        for (Categoria object : observableList) {
-            System.out.println(object);
-        }
         filteredList = new FilteredList<>(observableList, p -> true);
         tableView.setItems(observableList);
         sortedList = new SortedList<>(filteredList);

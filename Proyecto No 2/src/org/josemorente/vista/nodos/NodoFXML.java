@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.josemorente.vista.usuario;
+package org.josemorente.vista.nodos;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,27 +15,27 @@ import javafx.stage.Stage;
  *
  * @author josem
  */
-public class UsuarioFXML extends Application {
-    private UsuarioFXML() {
+public class NodoFXML extends Application{
+    
+    private NodoFXML() {
     }
     
-    public static UsuarioFXML getInstance() {
-        return UsuarioFXMLHolder.INSTANCE;
+    public static NodoFXML getInstance() {
+        return NodoFXMLHolder.INSTANCE;
     }
     
-    private static class UsuarioFXMLHolder {
+    private static class NodoFXMLHolder {
 
-        private static final UsuarioFXML INSTANCE = new UsuarioFXML();
+        private static final NodoFXML INSTANCE = new NodoFXML();
     }
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("UsuarioFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("NodoFXML.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
     }
-    
 }

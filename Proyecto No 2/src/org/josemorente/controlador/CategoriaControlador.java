@@ -450,15 +450,14 @@ public class CategoriaControlador {
         if (categoria != null) {
             //System.out.println("CATEGORIA"+ categoria);
             if (categoria.getEscritoControlador().getRaiz() != null) {
-                System.out.println("CATEGORIA ENTRA: "+ categoria);
                 //categoria.getLibroControlador().
                 //ArrayList ar = node.getBtree().getRoot().getArray();
+                categoria.getEscritoControlador().getRaiz().getArrayList().clear();
                 categoria.getEscritoControlador().obtenerTodo();
                 ArrayList<Obra> arrayList = categoria.getEscritoControlador().getRaiz().getArrayList();
                 if (arrayList.size() > 0) {                    
                     for (Obra obra: arrayList) {
                         this.observableListObra.add(obra);
-                        System.out.println(obra);
                         //if(!this.)
                         /*if (!this.tempBook.contains(object)) {
                             this.tempBook.add((Book)object);    
@@ -553,7 +552,6 @@ public class CategoriaControlador {
      * @return the observableListObra
      */
     public ObservableList<Obra> getObservableListObra() {
-        System.out.println("=============================== LIBROS=================================");
         observableListObra.clear();
         this.preOrderLibro(this.raiz);
         return observableListObra;
