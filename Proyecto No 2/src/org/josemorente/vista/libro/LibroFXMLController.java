@@ -7,6 +7,7 @@ package org.josemorente.vista.libro;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import org.josemorente.bean.Categoria;
@@ -57,6 +59,8 @@ public class LibroFXMLController implements Initializable {
     @FXML
     public TextField textFieldBuscar;
     @FXML
+    public TextField textFieldCategoria;
+    @FXML
     public ComboBox<Categoria> comboBoxCategoria;
     @FXML
     public Pane pane;
@@ -74,6 +78,14 @@ public class LibroFXMLController implements Initializable {
     public TableColumn<Obra, String> columnAno;
     @FXML
     public TableColumn<Obra, String> columnUsuario;
+    @FXML
+    public TableColumn<Obra, String> columnCategoria;
+    @FXML
+    public TableColumn<Obra, String> columnEditorial;
+    @FXML
+    public TableColumn<Obra, String> columnEdicion;
+    @FXML
+    public TableColumn<Obra, String> columnIdioma;
     @FXML
     public Button button;
     /**
@@ -94,6 +106,7 @@ public class LibroFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         pane.setVisible(false);
+        textFieldCategoria.setVisible(false);
         this.obtenerCategorias();
         this.obtenerDatos();
         columnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
@@ -101,6 +114,10 @@ public class LibroFXMLController implements Initializable {
         columnAutor.setCellValueFactory(new PropertyValueFactory<>("autor"));
         columnAno.setCellValueFactory(new PropertyValueFactory<>("ano"));
         columnUsuario.setCellValueFactory(new PropertyValueFactory<>("carnetUsuario"));
+        columnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        columnEditorial.setCellValueFactory(new PropertyValueFactory<>("editorial"));
+        columnEdicion.setCellValueFactory(new PropertyValueFactory<>("edicion"));
+        columnIdioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));
         
         //BUSCAR EN TABLA
         textFieldBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -114,6 +131,14 @@ public class LibroFXMLController implements Initializable {
                 if (data.getTitulo().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (data.getAutor().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getCategoria().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getEdicion().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getEditorial().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (data.getIdioma().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -147,7 +172,8 @@ public class LibroFXMLController implements Initializable {
                     } else {
                         NotificacionControlador.getInstance().error("Validación de Campos", "No ha seleccionado una categoría.");
                     }
-                } else if(label.getText().equals("Agregar")) {
+                } else if(label.getText().equals("Detalle")) {
+                    this.pane.setVisible(false);
                     this.limpiar();
                 }
             } else {
@@ -161,6 +187,8 @@ public class LibroFXMLController implements Initializable {
     @FXML
     private void mostrarAgregar(ActionEvent event) throws IOException {
         pane.setVisible(true);
+        this.comboBoxCategoria.setVisible(true);
+        this.textFieldCategoria.setVisible(false);
         label.setText("Agregar");
     }
     
@@ -197,6 +225,9 @@ public class LibroFXMLController implements Initializable {
             Obra obra = tableView.getSelectionModel().getSelectedItem();
             pane.setVisible(true);
             label.setText("Detalle");
+            this.comboBoxCategoria.setVisible(false);
+            this.textFieldCategoria.setVisible(true);
+            this.textFieldCategoria.setText(obra.getCategoria());
             this.textFieldAno.setText(obra.getAno());
             this.textFieldAutor.setText(obra.getAutor());
             this.textFieldEditorial.setText(obra.getEditorial());
@@ -221,6 +252,34 @@ public class LibroFXMLController implements Initializable {
         DashboardFXML.getInstance().start(FXMLDocument.stage);
     }
     
+    @FXML 
+    private void eliminarISBN() {
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Eliminar ISBN");
+        dialog.setHeaderText("Eliminar Libro");
+        dialog.setContentText("Por favor, ingrese el ISBN del libro a eliminar:");
+
+        // Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            System.out.println("Your name: " + result.get());
+            Obra obra = null;
+            for (Obra object : CategoriaControlador.getInstance().getObservableListObra()) {
+                if(object.getISBN() == Integer.parseInt(result.get())) {
+                    obra = object;
+                }
+            }
+            
+            if(obra!=null) {
+                CategoriaControlador.getInstance().eliminarLibro(obra.getISBN(), obra.getCategoria());
+                NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
+                this.obtenerDatos();
+            } else {
+                NotificacionControlador.getInstance().error("Libro No Encontrado", "El ISBN introducido no corresponde a ningún libro.");
+            }
+        }
+    }
+    
     public boolean validacion() {
         if(textFieldAno.getText().length() > 0 &&
             textFieldAutor.getText().length() > 0 &&
@@ -242,6 +301,8 @@ public class LibroFXMLController implements Initializable {
         this.textFieldISBN.setText("");
         this.textFieldIdioma.setText("");
         this.textFieldTitulo.setText("");
+        this.comboBoxCategoria.getSelectionModel().clearSelection();
+        textFieldCategoria.setVisible(false);
         pane.setVisible(false);
     }
     

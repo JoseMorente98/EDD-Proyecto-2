@@ -161,11 +161,11 @@ public class Categoria implements Serializable{
     
     @Override
     public String toString() {
-        return "CATEGORIA {\n"+
+        return nombre; /*"CATEGORIA {\n"+
             "\tid: " + id + "\n"+
             "\tusuario: " + carnetUsuario + "\n"+
             "\tnombre: " + nombre + "\n"+
-            "}";
+            "}";*/
     }    
 
 }

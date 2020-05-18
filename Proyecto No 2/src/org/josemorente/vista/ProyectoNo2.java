@@ -36,8 +36,45 @@ public class ProyectoNo2 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        OrdenadorControlador.getInstance().agregar("192.168.1.1", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.2", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.3", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.4", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.5", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.6", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.7", 8000);
+        OrdenadorControlador.getInstance().agregar("192.168.1.8", 8000);
+        CategoriaControlador.getInstance().agregar(0, "Miedo");
+        CategoriaControlador.getInstance().agregar(0, "AMOR");
+        CategoriaControlador.getInstance().agregar(0, "TERROR");
+        CategoriaControlador.getInstance().agregar(0, "ABC");
+        CategoriaControlador.getInstance().agregar(0, "DEF");
+        CategoriaControlador.getInstance().agregar(0, "GHJ");
+        CategoriaControlador.getInstance().insertarLibro(1, "Titulo", "autor", "editorial", "12313", "edicion", "Miedo", "es", 0);
+        CategoriaControlador.getInstance().insertarLibro(2, "Titulo 1", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(3, "Titulo 2", "123", "1231", "12313", "1231", "AMOR", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(4, "Titulo 3 ", "123", "1231", "12313", "1231", "AMOR", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(5, "Titulo 4", "123", "1231", "12313", "1231", "GHJ", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(6, "Titulo 5", "123", "editorial", "12313", "1231", "AMOR", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(7, "Titulo 6", "123", "1231", "12313", "1231", "TERROR", "es", 0);
+        CategoriaControlador.getInstance().insertarLibro(8, "Titulo 7", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(9, "Titulo 8", "autor", "1231", "12313", "1231", "TERROR", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(10, "Titulo 9", "123", "editorial", "12313", "1231", "GHJ", "es", 0);
+        CategoriaControlador.getInstance().insertarLibro(11, "Titulo 10", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(12, "Titulo 11", "123", "1231", "12313", "1231", "TERROR", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(13, "Titulo 12", "autor", "editorial", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(14, "Titulo 13", "123", "1231", "12313", "1231", "TERROR", "ingle", 0);
+        CategoriaControlador.getInstance().insertarLibro(15, "Titulo 14", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(16, "Titulo 15", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(17, "Titulo 16", "autor", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(18, "Titulo 17", "123", "1231", "12313", "1231", "DEF", "es", 0);
+        CategoriaControlador.getInstance().insertarLibro(19, "Titulo 18", "123", "editorial", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(20, "Titulo 19", "123", "1231", "12313", "1231", "DEF", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(21, "Titulo 20", "123", "1231", "12313", "1231", "Miedo", "12311", 0);
+        CategoriaControlador.getInstance().insertarLibro(22, "Titulo 21", "123", "1231", "12313", "1231", "DEF", "12311", 0);
         UsuarioControlador.getInstance().insertar(201801237, "José", "Morente", "Ingenieria en Ciencias y Sistemas", "12345");
         launch(args);
+        
         /*OrdenadorControlador.getInstance().agregar("192.168.1.1", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.2", 8000);
         OrdenadorControlador.getInstance().agregar("192.168.1.3", 8000);

@@ -359,22 +359,18 @@ public class CategoriaControlador {
 	}
     }
     
+    public Categoria buscar(String nombre) {
+        return buscar(nombre, raiz);
+    }
+    
     public Categoria buscar(String nombre, Categoria categoriaAux) {
-       // System.out.println("BUSCAR: "+ nombre);
-        if (categoriaAux == null) {
-            System.out.println("NULL");
-            return null;
-        } else {
-            if (categoriaAux.getNombre().equals(nombre)) {
-                //System.out.println("ENCONTRADO");
+        if(categoriaAux != null) {
+            if(categoriaAux.getNombre().equals(nombre)) {
+                System.out.println("ENCONTRAD"+nombre);
                 return categoriaAux;
             } else {
-                if (categoriaAux.getIzquierda() != null) {
-                    return buscar(nombre, categoriaAux.getIzquierda());
-                }
-                if (categoriaAux.getDerecha() != null) {
-                    return buscar(nombre, categoriaAux.getDerecha());
-                }
+                buscar(nombre, categoriaAux.getIzquierda());
+                buscar(nombre, categoriaAux.getDerecha());
             }
         }
         return null;
@@ -425,15 +421,18 @@ public class CategoriaControlador {
     }
     
     public void eliminarLibro(int ISBN, String nombre, Categoria categoria) {
+        System.out.println("BUSCAR: "+nombre );
         if(categoria != null) {
             if(categoria.getNombre().equals(nombre)) {
                 if(categoria.getEscritoControlador().getRaiz() != null) {
+                    System.out.println("ISBN: " + ISBN);
                     categoria.getEscritoControlador().eliminar(ISBN);
                 }
+            } else {
+                System.out.println("SI ENTRO AL ELSE");
+                eliminarLibro(ISBN, nombre, categoria.getIzquierda());
+                eliminarLibro(ISBN, nombre, categoria.getDerecha());
             }
-        } else {
-            eliminarLibro(ISBN, nombre, categoria.getIzquierda());
-            eliminarLibro(ISBN, nombre, categoria.getDerecha());
         }
     }
         

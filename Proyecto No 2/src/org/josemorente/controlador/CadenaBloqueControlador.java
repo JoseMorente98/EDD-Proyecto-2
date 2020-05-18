@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.commons.codec.binary.Hex;
 import org.josemorente.bean.CadenaBloque;
 import org.josemorente.bean.Cliente;
@@ -32,8 +34,10 @@ public class CadenaBloqueControlador {
     private CadenaBloque ultimo;
     private static String hash;
     private static BigInteger nonce;
+    private ObservableList<CadenaBloque> observableList;
     
     private CadenaBloqueControlador() {
+        observableList = FXCollections.observableArrayList();
         this.primero = null;
         this.ultimo = null;
     }
@@ -180,5 +184,25 @@ public class CadenaBloqueControlador {
         } catch (IOException ex) {
             Logger.getLogger(OrdenadorControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * @return the observableList
+     */
+    public ObservableList<CadenaBloque> getObservableList() {
+        observableList.clear();
+        CadenaBloque aux = primero;
+        while(aux!=null) {
+            observableList.add(aux);
+            aux = aux.getSiguiente();
+        }
+        return observableList;
+    }
+
+    /**
+     * @param observableList the observableList to set
+     */
+    public void setObservableList(ObservableList<CadenaBloque> observableList) {
+        this.observableList = observableList;
     }
 }
