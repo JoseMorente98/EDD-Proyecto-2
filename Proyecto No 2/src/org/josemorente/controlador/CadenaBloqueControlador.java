@@ -16,19 +16,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.codec.binary.Hex;
 import org.josemorente.bean.CadenaBloque;
-import org.josemorente.bean.Categoria;
 import org.josemorente.bean.Cliente;
-import org.josemorente.bean.Ordenador;
 import org.josemorente.bean.ServidorEDD;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -62,9 +59,10 @@ public class CadenaBloqueControlador {
     /**
      * AGREGAR SERVIDOR 
      */
-    public void agregarCadenaBloqueServidor(JSONArray jSONArray) {
+    public void agregarCadenaBloqueServidor(JSONArray jSONArray, String ip) {
         try {
-            CadenaBloque cadenaBloque = new CadenaBloque(this.getFechaActual(), jSONArray, Cliente.getIp());
+            CadenaBloque cadenaBloque = new CadenaBloque();
+            cadenaBloque = generar();
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(cadenaBloque, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -75,9 +73,14 @@ public class CadenaBloqueControlador {
         }
     }
     
-    public void agregar(JSONArray jSONArray) {
-        CadenaBloque cadenaBloque = new CadenaBloque(this.getFechaActual(), jSONArray, Cliente.getIp());
-        String strHash = "";
+    public void agregar(CadenaBloque bloque) {
+        CadenaBloque cadenaBloque = new CadenaBloque(bloque.getIndex(), 
+                bloque.getTimeStamp(), 
+                bloque.getData(), 
+                bloque.getNonce(), 
+                bloque.getPreviousHash(), 
+                bloque.getHash(), 
+                bloque.getIp());
         if (esVacio()) {
             primero = cadenaBloque;
             cadenaBloque.setPreviousHash("0000");
@@ -89,6 +92,11 @@ public class CadenaBloqueControlador {
             ultimo.setSiguiente(cadenaBloque);
         }
         ultimo = cadenaBloque;
+    }
+    
+    public CadenaBloque generar() {
+        String strHash = "";
+        CadenaBloque cadenaBloque = new CadenaBloque(0, this.getFechaActual(), JSONControlador.getInstance().getjSONArray(), "", "", "", "");
         strHash += cadenaBloque.getIndex();
         strHash += cadenaBloque.getTimeStamp();
         strHash += cadenaBloque.getPreviousHash();
@@ -96,6 +104,7 @@ public class CadenaBloqueControlador {
         strHash += cadenaBloque.getNonce();
         cadenaBloque.setHash(this.getHash(strHash));
         cadenaBloque.setNonce(this.getNonce().toString());
+        return cadenaBloque;
     }
     
     /**
@@ -176,7 +185,6 @@ public class CadenaBloqueControlador {
         while(aux != null) {
             strGraphviz += "Blockchain" + contador + " [label =\"" + "INDEX: " + aux.getIndex()+ 
                     "\\nTIMESTAMP: "+aux.getTimeStamp()+
-                    "\\nDATA: "+aux.getData() +
                     "\\nNONCE: "+aux.getNonce()+
                     "\\nPREVIOUSHASH: "+aux.getPreviousHash()+
                     "\\nHASH: "+aux.getHash()+
@@ -225,5 +233,25 @@ public class CadenaBloqueControlador {
      */
     public void setObservableList(ObservableList<CadenaBloque> observableList) {
         this.observableList = observableList;
+    }
+    
+    public void generarJSON() throws IOException {
+        CadenaBloque aux = primero;
+        while(aux != null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("INDEX", aux.getIndex());
+            jsonObject.put("TIMESTAMP", aux.getTimeStamp());
+            jsonObject.put("NONCE", aux.getNonce());
+            jsonObject.put("DATA", aux.getData());
+            jsonObject.put("PREVIOUSHASH", aux.getPreviousHash());
+            jsonObject.put("HASH", aux.getHash());
+            try (FileWriter file = new FileWriter(aux.getHash()+".json")) {
+                file.write(jsonObject.toJSONString());
+                file.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            aux = aux.getSiguiente();
+        }
     }
 }

@@ -5,13 +5,16 @@
  */
 package org.josemorente.vista;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.josemorente.bean.Categoria;
+import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.JSONControlador;
 import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.controlador.UsuarioControlador;
+import org.josemorente.servidor.ServidorFXML;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -23,7 +26,7 @@ public class ProyectoNo2 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        
+        //ServidorFXML.getInstance().start(stage);
         FXMLDocument.getInstance().start(stage);
         //UsuarioFXML.getInstance().start(stage);
     }
@@ -31,7 +34,11 @@ public class ProyectoNo2 extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        /*CadenaBloqueControlador.getInstance().agregar(new JSONArray(), "2014801237");
+        CadenaBloqueControlador.getInstance().agregar(new JSONArray(), "2014801237");
+        CadenaBloqueControlador.getInstance().agregar(new JSONArray(), "2014801237");
+        CadenaBloqueControlador.getInstance().generarJSON();*/
         launch(args);
         /*JSONControlador.getInstance().setJsonBody(new JSONObject());        
         JSONControlador.getInstance().setJsonObject(new JSONObject());

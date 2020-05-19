@@ -126,10 +126,8 @@ public class ClienteControlador implements Runnable {
                  */
                 if(servidorEDD.getCadenaBloque()!= null) {
                     CadenaBloque cadenaBloque = servidorEDD.getCadenaBloque();
-                    if(servidorEDD.getEstado() == 0) {
-                        //PENDIENTE
-                    } else if(servidorEDD.getEstado() == 1) {
-                        CadenaBloqueControlador.getInstance().agregar(new JSONArray());
+                    if(servidorEDD.getEstado() == 1) {
+                        CadenaBloqueControlador.getInstance().agregar(cadenaBloque);
                     }
                 }
                 
@@ -179,7 +177,9 @@ public class ClienteControlador implements Runnable {
         thread.start();
     }
     
-    public void detenerServidor() {        
+    public void detenerServidor() throws InterruptedException {        
+        OrdenadorControlador.getInstance().eliminarOrdenadorServidor(Cliente.getIp());
+        Thread.sleep(2000);
         try {
             exit = false;
             thread.stop();

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Proyecto No 2.jnlp">
+  <information>
+    <title>Proyecto No 2</title>
+    <vendor>josem</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib\commons-codec-1.14.jar" size="347669" download="eager" />
+    <jar href="lib\json-simple-1.1.1.jar" size="23931" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="org.josemorente.vista.ProyectoNo2"  name="Proyecto No 2" />
+  <update check="always"/>
+</jnlp>

@@ -19,7 +19,6 @@ import org.josemorente.bean.Cliente;
 import org.josemorente.controlador.ClienteControlador;
 import org.josemorente.controlador.NotificacionControlador;
 import org.josemorente.controlador.OrdenadorControlador;
-import org.josemorente.controlador.UsuarioControlador;
 
 /**
  * FXML Controller class
@@ -73,8 +72,9 @@ public class ConfiguracionFXMLController implements Initializable {
     }  
     
     @FXML
-    private void apagarServidor(ActionEvent event) {
+    private void apagarServidor(ActionEvent event) throws InterruptedException {
         ClienteControlador.getInstance().detenerServidor();
+        NotificacionControlador.getInstance().informacion("Configuración Guardada", "El cliente se ha desconectado.");
     }  
     
     public boolean validacion() {

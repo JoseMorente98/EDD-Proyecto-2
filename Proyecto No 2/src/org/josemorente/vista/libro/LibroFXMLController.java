@@ -216,10 +216,14 @@ public class LibroFXMLController implements Initializable {
     private void eliminar(ActionEvent event) throws InterruptedException {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Obra obra = tableView.getSelectionModel().getSelectedItem();
-            CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
-            NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
-            Thread.sleep(2000);
-            this.obtenerDatos();
+            if(obra.getCarnetUsuario()==UsuarioLogin.getCarnet()) {
+                CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
+                NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
+                Thread.sleep(2000);
+                this.obtenerDatos();
+            } else {
+                NotificacionControlador.getInstance().advertencia("Advetencia", "No puedes eliminar el libro si no eres el dueño.");
+            }
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }
@@ -229,25 +233,29 @@ public class LibroFXMLController implements Initializable {
     private void actualizarMostrar(ActionEvent event) {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Obra obra = tableView.getSelectionModel().getSelectedItem();
-            pane.setVisible(true);
-            label.setText("Detalle");
-            this.comboBoxCategoria.setVisible(false);
-            this.textFieldCategoria.setVisible(true);
-            this.textFieldCategoria.setText(obra.getCategoria());
-            this.textFieldAno.setText(obra.getAno());
-            this.textFieldAutor.setText(obra.getAutor());
-            this.textFieldEditorial.setText(obra.getEditorial());
-            this.textFieldEdicion.setText(obra.getEdicion());
-            this.textFieldISBN.setText(String.valueOf(obra.getISBN()));
-            this.textFieldIdioma.setText(obra.getIdioma());
-            this.textFieldTitulo.setText(obra.getTitulo());
-            this.textFieldAno.setEditable(false);
-            this.textFieldAutor.setEditable(false);
-            this.textFieldEditorial.setEditable(false);
-            this.textFieldEdicion.setEditable(false);
-            this.textFieldISBN.setEditable(false);
-            this.textFieldIdioma.setEditable(false);
-            this.textFieldTitulo.setEditable(false);
+            //if(obra.getCarnetUsuario()==UsuarioLogin.getCarnet()) {
+                pane.setVisible(true);
+                label.setText("Detalle");
+                this.comboBoxCategoria.setVisible(false);
+                this.textFieldCategoria.setVisible(true);
+                this.textFieldCategoria.setText(obra.getCategoria());
+                this.textFieldAno.setText(obra.getAno());
+                this.textFieldAutor.setText(obra.getAutor());
+                this.textFieldEditorial.setText(obra.getEditorial());
+                this.textFieldEdicion.setText(obra.getEdicion());
+                this.textFieldISBN.setText(String.valueOf(obra.getISBN()));
+                this.textFieldIdioma.setText(obra.getIdioma());
+                this.textFieldTitulo.setText(obra.getTitulo());
+                this.textFieldAno.setEditable(false);
+                this.textFieldAutor.setEditable(false);
+                this.textFieldEditorial.setEditable(false);
+                this.textFieldEdicion.setEditable(false);
+                this.textFieldISBN.setEditable(false);
+                this.textFieldIdioma.setEditable(false);
+                this.textFieldTitulo.setEditable(false);
+            /*} else {
+                NotificacionControlador.getInstance().advertencia("Advetencia", "No puedes editar el libro si no eres el dueño.");
+            }*/
         } else {
             NotificacionControlador.getInstance().advertencia("Selección Tabla", "No ha seleccionado una fila de la tabla.");
         }
@@ -277,10 +285,14 @@ public class LibroFXMLController implements Initializable {
             }
             
             if(obra!=null) {
-                CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
-                NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
-                Thread.sleep(2000);
-                this.obtenerDatos();
+                if(obra.getCarnetUsuario()==UsuarioLogin.getCarnet()) {
+                    CategoriaControlador.getInstance().eliminarLibroServidor(obra.getISBN(), obra.getCategoria());
+                    NotificacionControlador.getInstance().informacion("Libro Eliminado", "El libro se eliminó correctamente.");
+                    Thread.sleep(2000);
+                    this.obtenerDatos();
+                } else {
+                    NotificacionControlador.getInstance().advertencia("Advetencia", "No puedes eliminar el libro si no eres el dueño.");
+                }
             } else {
                 NotificacionControlador.getInstance().error("Libro No Encontrado", "El ISBN introducido no corresponde a ningún libro.");
             }

@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -59,6 +60,7 @@ public class UsuarioControlador {
     public void agregarUsuarioServidor(int carnet, String nombre, String apellido, String carrera, String password) {
         try {
             Usuario usuario = new Usuario(carnet, nombre, apellido, carrera, password);
+            JSONControlador.getInstance().generarJSON("Usuario", "1", usuario);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(usuario, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -75,6 +77,7 @@ public class UsuarioControlador {
     public void actualizarUsuarioServidor(int carnet, String nombre, String apellido, String carrera, String password) {
         try {
             Usuario usuario = new Usuario(carnet, nombre, apellido, carrera, password);
+            JSONControlador.getInstance().generarJSON("Usuario", "2", usuario);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(usuario, 2, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -229,6 +232,7 @@ public class UsuarioControlador {
      * CARGAR JSON 
      */
     public void cargarJSON() {
+        ArrayList<Usuario> arrayListUsuario = new ArrayList<>();
         Stage stage = new Stage();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Abrir Archivos");
@@ -268,8 +272,16 @@ public class UsuarioControlador {
                             password = (String)pair.getValue();
                         }
                     }
-                    this.insertar(carnet, nombre, apellido, carrera, password);
+                    Usuario usuario = new Usuario(carnet, nombre, apellido, carrera, password);
+                    arrayListUsuario.add(usuario);
                 }
+                
+                Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
+                ServidorEDD servidorEDD = new ServidorEDD(1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
+                servidorEDD.setArrayListUsuario(arrayListUsuario);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectOutputStream.writeObject(servidorEDD);
+                socket.close();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);            
             } catch (IOException ex) {

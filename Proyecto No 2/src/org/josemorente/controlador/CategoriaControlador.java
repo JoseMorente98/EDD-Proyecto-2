@@ -66,6 +66,7 @@ public class CategoriaControlador {
     public void agregarCategoriaServidor(int carnetUsuario, String nombre) {
         try {
             Categoria categoria = new Categoria(0, carnetUsuario, nombre);
+            JSONControlador.getInstance().generarJSON("Categoria", "1", categoria);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(categoria, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -98,6 +99,7 @@ public class CategoriaControlador {
     public void eliminarCategoriaServidor(String nombre) {
         try {
             Categoria categoria = new Categoria(0, nombre, "");
+            JSONControlador.getInstance().generarJSON("Categoria", "0", categoria);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(categoria, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -123,7 +125,7 @@ public class CategoriaControlador {
                 obra.getCategoria(), 
                 obra.getIdioma(), 
                 obra.getCarnetUsuario());
-            
+            JSONControlador.getInstance().generarJSON("Libro", "1", obraObject);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(obraObject, 1, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -140,6 +142,7 @@ public class CategoriaControlador {
     public void eliminarLibroServidor(int ISBN, String nombre) {
         try {
             Obra obra = new Obra(ISBN, nombre);
+            JSONControlador.getInstance().generarJSON("Libro", "0", obra);
             Socket socket = new Socket(Cliente.getIpServidor(), Integer.parseInt(Cliente.getPuertoServidor()));
             ServidorEDD servidorEDD = new ServidorEDD(obra, 0, Cliente.getIp(), Integer.parseInt(Cliente.getPuerto()));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

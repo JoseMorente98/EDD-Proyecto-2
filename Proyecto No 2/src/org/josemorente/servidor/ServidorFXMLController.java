@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,17 +21,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.josemorente.bean.CadenaBloque;
 import org.josemorente.bean.Categoria;
 import org.josemorente.bean.Obra;
 import org.josemorente.bean.Ordenador;
 import org.josemorente.bean.ServidorEDD;
 import org.josemorente.bean.Usuario;
+import org.josemorente.controlador.CadenaBloqueControlador;
 import org.josemorente.controlador.CategoriaControlador;
 import org.josemorente.controlador.ClienteControlador;
 import org.josemorente.controlador.OrdenadorControlador;
 import org.josemorente.controlador.UsuarioControlador;
-import org.josemorente.vista.FXMLDocument;
-import org.josemorente.vista.dashboard.DashboardFXML;
 
 /**
  * FXML Controller class
@@ -154,20 +155,48 @@ public class ServidorFXMLController implements Initializable, Runnable {
                     }
                 }
                 
-                //NO. PUERTO SALIDA
-                /*Socket socketEnviar = new Socket(servidorEDD.getIp(), 8200);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketEnviar.getOutputStream());
-                objectOutputStream.writeObject(servidorEDD);
-                objectOutputStream.close();
-                socketEnviar.close();
+                /**
+                 * BLOCKCHAIN
+                 */
+                if(servidorEDD.getCadenaBloque()!= null) {
+                    CadenaBloque cadenaBloque = servidorEDD.getCadenaBloque();
+                    if(servidorEDD.getEstado() == 1) {
+                        CadenaBloqueControlador.getInstance().agregar(cadenaBloque);
+                        textArea.setText(fecha +  " - BLOCKCHAIN AGREGADO "+cadenaBloque.getIp()+" - IP: " + servidorEDD.getIp());
+                    }
+                }
                 
-                /*Socket socketEnviar2 = new Socket("192.168.1.111", 8200);
-                ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(socketEnviar.getOutputStream());
-                objectOutputStream2.writeObject(servidorEDD);
-                objectOutputStream2.close();
-                socketEnviar2.close();
-                    */
+                /**
+                 * ARREGLO USUARIO 
+                 */
+                if(servidorEDD.getArrayListUsuario().size() > 0) {
+                    ArrayList<Usuario> arrayList = servidorEDD.getArrayListUsuario();
+                    if(servidorEDD.getEstado() == 1) {
+                        for (Usuario usuario : arrayList) {
+                            UsuarioControlador.getInstance().insertar(
+                            usuario.getCarnet(),
+                            usuario.getNombre(),
+                            usuario.getApellido(),
+                            usuario.getCarrera(),
+                            usuario.getPassword());
+                        }
+                        textArea.setText(fecha +  " - CARGA MASIVA DE USUARIOS - IP: " + servidorEDD.getIp());
+                    }
+                }
                 
+                /**
+                 * ARREGLO LIBRO 
+                 */
+                if(servidorEDD.getArrayListObra().size() > 0) {
+                    ArrayList<Obra> arrayList = servidorEDD.getArrayListObra();
+                    if(servidorEDD.getEstado() == 1) {
+                        for (Obra obra : arrayList) {
+                            CategoriaControlador.getInstance().agregarLibro(obra.getCategoria(), obra);
+                        }
+                        textArea.setText(fecha +  " - CARGA MASIVA DE LIBROS - IP: " + servidorEDD.getIp());
+                    }
+                }
+                                
                 Ordenador ordenador  = OrdenadorControlador.getInstance().getInicio();
                 while(ordenador != null) {
                     Socket socketEnviar = new Socket(ordenador.getIp(), ordenador.getPuerto());
@@ -197,6 +226,7 @@ public class ServidorFXMLController implements Initializable, Runnable {
     
     @FXML
     private void apagar(ActionEvent event) throws IOException {
+        textArea.setText("SERVIDOR APAGADO D:");
         thread.stop();
         exit = true;
         serverSocket.close();

@@ -43,7 +43,7 @@ public class RegistroFXMLController implements Initializable {
     private void guardarCambios(ActionEvent event) {
         try {
             if(validacion()) {
-                UsuarioControlador.getInstance().insertar(
+                UsuarioControlador.getInstance().agregarUsuarioServidor(
                 Integer.parseInt(textFieldCarnet.getText()),
                 textFieldNombre.getText(),
                 textFieldApellido.getText(),

@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.josemorente.bean.Usuario;
+import org.josemorente.bean.UsuarioLogin;
 import org.josemorente.controlador.MD5Controlador;
 import org.josemorente.controlador.NotificacionControlador;
 import org.josemorente.controlador.UsuarioControlador;
@@ -62,15 +63,17 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void logIn(ActionEvent event) throws Exception {
-        DashboardFXML.getInstance().start(FXMLDocument.stage);
-        
-        /*try {
+        try {
             if(validacion()) {
                 Usuario usuario = UsuarioControlador.getInstance().autenticar(
                 Integer.parseInt(textFieldCarnet.getText()),
                 MD5Controlador.getInstance().Encriptar(textFieldPassword.getText()));
                 
                 if(usuario != null) {
+                    UsuarioLogin.setCarnet(usuario.getCarnet());
+                    UsuarioLogin.setNombre(usuario.getNombre());
+                    UsuarioLogin.setApellido(usuario.getApellido());
+                    DashboardFXML.getInstance().start(FXMLDocument.stage);
                     NotificacionControlador.getInstance().informacion("Bienvenido", "Ha iniciado sesión.");
                 } else {
                     NotificacionControlador.getInstance().error("Inicio de Sesión", "Usuario o contraseña Incorrectos.");
@@ -80,7 +83,7 @@ public class FXMLDocumentController implements Initializable {
             }
         } catch (NumberFormatException e) {
             NotificacionControlador.getInstance().error("Validación de Campos", "El carnet es un campo numérico.");
-        }*/
+        }
     }
     
     public boolean validacion() {

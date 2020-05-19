@@ -18,12 +18,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.josemorente.bean.CadenaBloque;
-import org.josemorente.bean.Ordenador;
+import org.josemorente.bean.UsuarioLogin;
 import org.josemorente.controlador.CadenaBloqueControlador;
-import org.josemorente.controlador.OrdenadorControlador;
+import org.josemorente.controlador.JSONControlador;
 import org.josemorente.vista.FXMLDocument;
 import org.josemorente.vista.dashboard.DashboardFXML;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * FXML Controller class
@@ -103,8 +104,17 @@ public class BlockchainFXMLController implements Initializable {
     
     @FXML
     private void agregar(ActionEvent event) throws Exception {
-        CadenaBloqueControlador.getInstance().agregar(new JSONArray());
+        CadenaBloqueControlador.getInstance().agregarCadenaBloqueServidor(JSONControlador.getInstance().getjSONArray(), String.valueOf(UsuarioLogin.getCarnet()));
+        JSONControlador.getInstance().setJsonBody(new JSONObject());
+        JSONControlador.getInstance().setJsonObject(new JSONObject());
+        JSONControlador.getInstance().setjSONArray(new JSONArray());
+        Thread.sleep(2000);
         this.obtenerDatos();
+    }
+    
+    @FXML
+    private void generarJSON(ActionEvent event) throws Exception {
+        CadenaBloqueControlador.getInstance().generarJSON();
     }
     
 }

@@ -21,6 +21,9 @@ public class JSONControlador {
     private JSONArray jSONArray;
     
     private JSONControlador() {
+        jsonBody = new JSONObject();
+        jsonObject = new JSONObject();
+        jSONArray = new JSONArray();
     }
     
     public static JSONControlador getInstance() {
